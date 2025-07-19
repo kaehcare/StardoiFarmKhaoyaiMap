@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แผนที่ฟาร์มแกะ Stardoi Khaoyai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f4f8f4; /* Light green background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        h1 {
+            color: #4CAF50; /* Farm green */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        p {
+            text-align: center;
+            max-width: 800px;
+            color: #555;
+        }
+
+        /* Map Container */
+        #map-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px; /* Adjust as needed */
+            margin: 20px auto;
+            border: 8px solid #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            background: #fff;
+        }
+
+        #map-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px; /* Inner radius */
+        }
+
+        /* Point of Interest (POI) Styling */
+        .poi {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: #ff5252; /* Bright red */
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 0 rgba(255, 82, 82, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .poi:hover {
+            animation-play-state: paused;
+            transform: translate(-50%, -50%) scale(1.4);
+        }
+
+        /* Pulsing animation for POIs */
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 0 0 12px rgba(255, 82, 82, 0);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+            }
+        }
+        
+        /* POI Positions (% of map width/height) */
+        #poi-tickets { top: 85%; left: 15%; }
+        #poi-photos { top: 83%; left: 25%; }
+        #poi-cafe { top: 87%; left: 35%; }
+        #poi-horse { top: 40%; left: 18%; }
+        #poi-kayak { top: 20%; left: 75%; }
+        #poi-sheep-feed { top: 58%; left: 50%; }
+        #poi-lamb-feed { top: 70%; left: 60%; }
+        #poi-duck { top: 55%; left: 80%; }
+        #poi-peafowl { top: 35%; left: 85%; }
+        #poi-rabbit { top: 75%; left: 78%; }
+        #poi-drawing { top: 88%; left: 45%; }
+
+        /* Modal (Popup) Styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: slide-down 0.5s ease-out;
+            position: relative;
+        }
+        
+        @keyframes slide-down {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+        }
+
+        #modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: #eee;
+        }
+
+        #modal-title {
+            margin-top: 0;
+            color: #4CAF50;
+            font-size: 2em;
+        }
+
+        #modal-description {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #555;
+        }
+        
+        #modal-description h4 {
+            color: #333;
+            border-left: 4px solid #8BC34A; /* Light green accent */
+            padding-left: 10px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>แผนที่อินเทอร์แอคทีฟ Stardoi Khaoyai Sheep Farm</h1>
+    <p>ยินดีต้อนรับสู่ฟาร์มแกะสตาร์ดอย เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา</p>
+
+    <div id="map-container">
+        <!-- Map image. Using a generic layout for demonstration. -->
+        <img id="map-image" src="https://scontent.fbkk22-7.fna.fbcdn.net/v/t39.30808-6/519444931_24914745361448132_4039850950799364795_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=3BLsdLzezFMQ7kNvwHzMiV7&_nc_oc=Adma0CpUr5tBW2uOMXlrLpQio4Iaa4DR50MnhFbzYRMNVSoTQ8XxFtNpTghKtWqmkdWABruMRk-CwVabDBj4B_Z8&_nc_zt=23&_nc_ht=scontent.fbkk22-7.fna&_nc_gid=RAZI6KsgvAJdB0TkmpVD3g&oh=00_AfSCDOVQMH9XspcJQvfGJHraIQZebOkoetfRBwkUDtlW3g&oe=688187DD" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/1000x700/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
+        
+        <!-- Points of Interest (POIs) -->
+        <div class="poi" id="poi-tickets" data-id="tickets" title="จุดขายตั๋ว"></div>
+        <div class="poi" id="poi-photos" data-id="photos" title="จุดขายรูปภาพ"></div>
+        <div class="poi" id="poi-cafe" data-id="cafe" title="จุดให้บริการคาเฟ่"></div>
+        <div class="poi" id="poi-horse" data-id="horse" title="จุดขี่ม้า"></div>
+        <div class="poi" id="poi-kayak" data-id="kayak" title="จุดพายเรือคายัค"></div>
+        <div class="poi" id="poi-sheep-feed" data-id="sheep-feed" title="จุดให้อาหารแกะ"></div>
+        <div class="poi" id="poi-lamb-feed" data-id="lamb-feed" title="จุดให้นมแกะ"></div>
+        <div class="poi" id="poi-duck" data-id="duck" title="จุดเลี้ยงเป็ดปักกิ่ง"></div>
+        <div class="poi" id="poi-peafowl" data-id="peafowl" title="จุดเลี้ยงนกยูงอินเดีย"></div>
+        <div class="poi" id="poi-rabbit" data-id="rabbit" title="จุดให้อาหารกระต่าย"></div>
+        <div class="poi" id="poi-drawing" data-id="drawing" title="จุดวาดภาพ"></div>
+    </div>
+
+    <!-- The Modal Popup -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-title"></h2>
+            <img id="modal-image" src="" alt="รูปภาพประกอบ" onerror="this.onerror=null;this.src='https://placehold.co/600x300/eee/ccc?text=Image+Not+Found';">
+            <div id="modal-description"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data for each Point of Interest with updated image URLs
+        const poiData = {
+            tickets: {
+                title: 'จุดขายตั๋ว',
+                description: `
+                    <p>เริ่มต้นการผจญภัยในฟาร์มของเราที่นี่! จุดจำหน่ายตั๋วเป็นประตูสู่ความสนุกสนานและกิจกรรมทั้งหมดที่รอคุณอยู่ภายในฟาร์ม นอกจากตั๋วเข้าชมแล้ว ยังสามารถสอบถามข้อมูลโปรโมชั่นและกิจกรรมพิเศษต่างๆ ได้จากเจ้าหน้าที่</p>
+                    <h4>เคล็ดลับ:</h4>
+                    <p>ควรซื้อตั๋วสำหรับกิจกรรมต่างๆ เช่น การให้อาหารสัตว์ หรือขี่ม้า ที่นี่ล่วงหน้าเพื่อความสะดวกและรวดเร็ว</p>
+                `,
+                image: 'https://i.ibb.co/yQZgGzJ/farm-ticket-booth.jpg'
+            },
+            photos: {
+                title: 'จุดขายรูปภาพ',
+                description: `
+                    <p>เก็บความทรงจำดีๆ ที่ฟาร์มของเรากลับบ้าน! ที่จุดนี้มีช่างภาพมืออาชีพคอยให้บริการถ่ายภาพของคุณกับบรรยากาศสวยๆ และน้องแกะที่น่ารัก หลังจากนั้นคุณสามารถเลือกซื้อภาพถ่ายที่สวยที่สุดเป็นที่ระลึกได้</p>
+                    <h4>บริการ:</h4>
+                    <p>มีบริการอัดภาพใส่กรอบสวยงาม หรือรับเป็นไฟล์ดิจิทัลคุณภาพสูงเพื่อนำไปใช้งานต่อได้</p>
+                `,
+                image: 'https://i.ibb.co/dG6TzJ1/souvenir-photo.jpg'
+            },
+            cafe: {
+                title: 'จุดให้บริการคาเฟ่',
+                description: `
+                    <p>พักเหนื่อยและเติมพลังที่คาเฟ่บรรยากาศดีของเรา ที่นี่มีบริการเครื่องดื่มหลากหลายชนิด ทั้งกาแฟสดหอมกรุ่น ชา และเครื่องดื่มเย็นชื่นใจ พร้อมด้วยขนมเค้กและเบเกอรี่โฮมเมดแสนอร่อย ท่ามกลางวิวทิวทัศน์อันงดงามของฟาร์ม</p>
+                `,
+                image: 'https://i.ibb.co/Yd3bC8p/farm-cafe.jpg'
+            },
+            horse: {
+                title: 'จุดขี่ม้า',
+                description: `
+                    <p>สัมผัสประสบการณ์สุดคลาสสิกกับการขี่ม้าชมทิวทัศน์อันงดงามรอบๆ ฟาร์ม เรามีม้าที่ถูกฝึกมาอย่างดีและเชื่อง เหมาะสำหรับนักท่องเที่ยวทุกเพศทุกวัย ไม่ว่าจะมีประสบการณ์หรือไม่ก็ตาม โดยมีเจ้าหน้าที่คอยดูแลความปลอดภัยอย่างใกล้ชิด</p>
+                    <h4>เกร็ดความรู้: ม้าแข่ง</h4>
+                    <p>ม้าที่ใช้ในการแข่งขันนั้นส่วนใหญ่เป็นพันธุ์ "เธอร์รัพเบรด" (Thoroughbred) ที่ถูกพัฒนาขึ้นในประเทศอังกฤษ มีชื่อเสียงด้านความเร็ว ความอดทน และจิตวิญญาณของนักสู้ แม้ว่าม้าที่นี่จะเป็นม้าสำหรับท่องเที่ยว แต่ก็มีสายเลือดที่ดีและได้รับการดูแลอย่างดีเยี่ยมเช่นกัน</p>
+                `,
+                image: 'https://i.ibb.co/hR2k4vD/horse-riding-farm.jpg'
+            },
+            kayak: {
+                title: 'จุดพายเรือคายัค',
+                description: `
+                    <p>เปลี่ยนบรรยากาศมาทำกิจกรรมทางน้ำกับการพายเรือคายัคในทะเลสาบของฟาร์ม เป็นกิจกรรมที่สนุกสนานและได้ออกกำลังกายเบาๆ พร้อมชมความงามของธรรมชาติรอบตัว เหมาะสำหรับทุกคนในครอบครัว</p>
+                    <h4>เกร็ดความรู้: เรือคายัค</h4>
+                    <p>เรือคายัคมีต้นกำเนิดมาจากชาวเอสกิโมในแถบอาร์กติก ถูกออกแบบมาให้มีน้ำหนักเบาและคล่องตัวสูง เดิมใช้ในการล่าสัตว์และเดินทางในน่านน้ำที่เย็นจัด ปัจจุบันได้กลายเป็นกิจกรรมสันทนาการที่ได้รับความนิยมไปทั่วโลก</p>
+                `,
+                image: 'https://i.ibb.co/k3bCq0B/kayaking-lake.jpg'
+            },
+            'sheep-feed': {
+                title: 'จุดให้อาหารแกะ',
+                description: `
+                    <p>ไฮไลท์ของฟาร์มที่ทุกคนรอคอย! มาใกล้ชิดกับฝูงแกะแสนน่ารักและป้อนอาหารให้พวกมันด้วยมือของคุณเอง เป็นกิจกรรมที่สร้างความประทับใจให้กับเด็กๆ และผู้ใหญ่ได้เป็นอย่างดี</p>
+                    <h4>เกร็ดความรู้: แกะพันธุ์คอร์ริเดล (Corriedale)</h4>
+                    <p>แกะพันธุ์คอร์ริเดลเป็นแกะลูกผสมที่ถูกพัฒนาขึ้นในประเทศนิวซีแลนด์ มีชื่อเสียงจากการเป็น "แกะสองวัตถุประสงค์" คือให้ทั้งขนคุณภาพดีและเนื้อรสเลิศ พวกมันมีขนหนาฟู สีขาวสะอาด และมีนิสัยเป็นมิตร เข้ากับคนง่าย จึงเป็นที่นิยมเลี้ยงในฟาร์มท่องเที่ยวทั่วโลก</p>
+                `,
+                image: 'https://i.ibb.co/yY1kHwX/hand-feeding-sheep.jpg'
+            },
+            'lamb-feed': {
+                title: 'จุดให้นมลูกแกะ',
+                description: `
+                    <p>สัมผัสความน่ารักบริสุทธิ์ของเหล่าลูกแกะตัวน้อยในโซนอนุบาล คุณสามารถป้อนนมจากขวดให้ลูกแกะได้อย่างใกล้ชิด เป็นภาพที่น่าเอ็นดูและเป็นประสบการณ์ที่หาได้ยาก รับรองว่าจะทำให้คุณใจละลาย</p>
+                `,
+                image: 'https://i.ibb.co/pwnxYp8/bottle-feeding-lamb.jpg'
+            },
+            duck: {
+                title: 'จุดเลี้ยงเป็ดปักกิ่ง',
+                description: `
+                    <p>ชมความน่ารักของฝูงเป็ดปักกิ่งสีขาวสะอาดตาที่กำลังเล่นน้ำและใช้ชีวิตอย่างมีความสุขในพื้นที่ของพวกมัน คุณสามารถให้อาหารและสังเกตพฤติกรรมตามธรรมชาติของเป็ดเหล่านี้ได้</p>
+                    <h4>เกร็ดความรู้: เป็ดปักกิ่ง</h4>
+                    <p>แม้จะมีชื่อว่า "เป็ดปักกิ่ง" แต่เป็ดสายพันธุ์นี้กลับถูกพัฒนาและโด่งดังในประเทศสหรัฐอเมริกา มีลักษณะเด่นคือขนสีขาวล้วน ตัวตั้งตรง และปากสีส้มสดใส เป็นเป็ดที่นิยมเลี้ยงเพื่อเอาเนื้อและไข่ แต่ในฟาร์มของเรา พวกมันคือเพื่อนแสนน่ารักของนักท่องเที่ยว</p>
+                `,
+                image: 'https://i.ibb.co/mHkPzYv/pekin-ducks.jpg'
+            },
+            peafowl: {
+                title: 'จุดเลี้ยงนกยูงอินเดีย',
+                description: `
+                    <p>ตื่นตาตื่นใจไปกับความสง่างามของนกยูงอินเดีย ที่โซนนี้คุณจะได้พบกับนกยูงตัวผู้ที่กำลังรำแพนหางอวดลวดลาย "แววมยุรา" อันงดงามตระการตา ซึ่งเป็นภาพที่น่าประทับใจและหาชมได้ยาก</p>
+                    <h4>เกร็ดความรู้: นกยูงอินเดีย</h4>
+                    <p>นกยูงอินเดีย (Indian Peafowl) เป็นนกประจำชาติของประเทศอินเดีย มีเพียงตัวผู้เท่านั้นที่มีแพนหางยาวสวยงามเพื่อใช้เกี้ยวพาราสีตัวเมีย ลวดลายที่คล้ายดวงตาบนหางนั้นเชื่อกันว่าช่วยข่มขู่ศัตรูและดึงดูดเพศตรงข้าม</p>
+                `,
+                image: 'https://i.ibb.co/34bH4fV/indian-peafowl.jpg'
+            },
+            rabbit: {
+                title: 'จุดให้อาหารกระต่าย',
+                description: `
+                    <p>มุมโปรดของเด็กๆ ที่จะได้พบปะกับฝูงกระต่ายหลากหลายสายพันธุ์ที่น่ารักและเป็นมิตร คุณสามารถซื้ออาหาร (เช่น แครอท) เพื่อป้อนให้กับน้องกระต่ายได้อย่างใกล้ชิด เป็นกิจกรรมที่สนุกและปลอดภัย</p>
+                `,
+                image: 'https://i.ibb.co/M8GvBqf/feeding-rabbits.jpg'
+            },
+            drawing: {
+                title: 'จุดวาดภาพระบายสี',
+                description: `
+                    <p>ปลดปล่อยจินตนาการและความคิดสร้างสรรค์ที่มุมศิลปะของเรา ที่นี่มีอุปกรณ์วาดภาพระบายสีตุ๊กตาปูนปลาสเตอร์รูปสัตว์ต่างๆ ในฟาร์ม เช่น แกะ ม้า กระต่าย ให้คุณได้สร้างสรรค์ผลงานในแบบของตัวเองและนำกลับไปเป็นของที่ระลึกสุดพิเศษ</p>
+                `,
+                image: 'https://i.ibb.co/fHjB20m/kids-painting.jpg'
+            }
+        };
+
+        // Get Modal elements
+        const modal = document.getElementById('infoModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImage = document.getElementById('modal-image');
+        const modalDescription = document.getElementById('modal-description');
+        const closeButton = document.querySelector('.close-button');
+
+        // Add click event to all POIs
+        document.querySelectorAll('.poi').forEach(poi => {
+            poi.addEventListener('click', () => {
+                const poiId = poi.dataset.id;
+                const data = poiData[poiId];
+
+                // Populate modal with data
+                modalTitle.textContent = data.title;
+                modalImage.src = data.image;
+                modalImage.alt = `รูปภาพของ ${data.title}`;
+                modalDescription.innerHTML = data.description;
+                
+                // Show the modal
+                modal.style.display = 'flex';
+            });
+        });
+
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Event listeners for closing the modal
+        closeButton.addEventListener('click', closeModal);
+
+        window.addEventListener('click', (event) => {
+            // Close if clicked on the background overlay
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+    </script>
+</body>
+</html>
