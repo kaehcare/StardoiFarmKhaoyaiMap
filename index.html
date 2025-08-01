@@ -92,14 +92,16 @@
         #poi-tickets { top: 90%; left: 7%; }
         #poi-photos { top: 78%; left: 30%; } /* Marked on "Shop" */
         #poi-cafe { top: 24%; left: 45%; }
-        #poi-horse { top: 41%; left: 36%; }
+        #poi-horse { top: 42%; left: 18%; }
         #poi-kayak { top: 35%; left: 80%; }
-        #poi-sheep-feed { top: 26%; left: 16.5%; }
-        #poi-lamb-feed { top: 15%; left: 23%; } /* Placed near sheep area */
+        #poi-sheep-feed { top: 15%; left: 23%; }
+        #poi-lamb-feed { top: 26%; left: 16.5%; } /* Placed near sheep area */
         #poi-duck { top: 12%; left: 74%; }
         #poi-peafowl { top: 16.5%; left: 75%; }
         #poi-rabbit { top: 30%; left: 77%; }
         #poi-drawing { top: 30.5%; left: 72%; }
+        #poi-restroom { top: 22.5%; left: 41%; } 
+        #poi-albino-buffalo { top: 78.5%; left: 18%; } /* New Albino Buffalo POI */
 
         /* Modal (Popup) Styling */
         .modal {
@@ -195,7 +197,7 @@
     <p>ยินดีต้อนรับสู่ฟาร์มแกะสตาร์ดอย เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา</p>
 
     <div id="map-container">
-        <img id="map-image" src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/526528912_25018928057696528_9076552687645562827_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=TWAzdBGj2_kQ7kNvwFK0XST&_nc_oc=AdmP945uUJiGcttpbO6LAX-_Vpm-Pu0Q68ct0UGc890QU2JKIS_RH-l812k-og0YNr0YrcmDOoadJVlKbT0Qw6mr&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=2x2lBLv8j5iWEYdlvPB0tw&oh=00_AfTcRjE6Eo7EbBO0DD2j0aIH982ENFAYFrjQpFFqISKYrQ&oe=68928AE8" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/800x1132/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
+        <img id="map-image" src="https://scontent.fbkk13-2.fna.fbcdn.net/v/t39.30808-6/527492897_25019704560952211_5129021553588421158_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=gSyRfH2a6l0Q7kNvwH19c_u&_nc_oc=Admvbt-zg9IjfYjoMEovMPnIxtB6jCT6N-fyEnrPhDo1tvcQ4W6pa5OVR_UvnQlnl_IX8kWOcsOLJwH_ti_WZD6j&_nc_zt=23&_nc_ht=scontent.fbkk13-2.fna&_nc_gid=a_g3BBlgaSSUUU2xuNMJSA&oh=00_AfRl2dZQ0QvAuIpAMTkWY57aXBMlgTlR3_REK9h1g9wQfA&oe=68929D00" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/800x1132/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
         
         <!-- Points of Interest (POIs) -->
         <div class="poi" id="poi-tickets" data-id="tickets" title="จุดขายตั๋ว"></div>
@@ -209,6 +211,8 @@
         <div class="poi" id="poi-peafowl" data-id="peafowl" title="จุดเลี้ยงนกยูงอินเดีย"></div>
         <div class="poi" id="poi-rabbit" data-id="rabbit" title="จุดให้อาหารกระต่าย"></div>
         <div class="poi" id="poi-drawing" data-id="drawing" title="จุดวาดภาพ"></div>
+        <div class="poi" id="poi-restroom" data-id="restroom" title="ห้องน้ำ"></div>
+        <div class="poi" id="poi-albino-buffalo" data-id="albino-buffalo" title="จุดให้อาหารควายเผือก"></div> <!-- New Albino Buffalo POI -->
     </div>
 
     <!-- The Modal Popup -->
@@ -231,7 +235,7 @@
                     <h4>เคล็ดลับ:</h4>
                     <p>ตั๋วสำหรับกิจกรรมต่างๆ เช่น การขี่ม้า พายเรือคายัค สามารถซื้อได้ที่จุดขายอาหารแกะ </p>
                 `,
-                image: 'https://i.ibb.co/yQZgGzJ/farm-ticket-booth.jpg'
+                image: 'https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/525943679_1149229150566874_7616628224717669747_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=f727a1&_nc_ohc=mw0ZCD8NzMMQ7kNvwGrlDPR&_nc_oc=Adn0VcP4rxSI8v9AbTmvwbMwSqAaEGtAraYxZkXLv-B2Zb_7rj3QhmlrN7iUf7m1zUYRFOa8sbxcrM9b0t78Yd5U&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=qmRRHIa76tNB0TQXp0fb7g&oh=00_AfS6tUZwfPQNWsLpWLUSjuiZptErAHx7ILQ8BFoSzJOjmA&oe=6892BF51'
             },
             photos: {
                 title: 'จุดขายรูปภาพ / ร้านค้า',
@@ -240,7 +244,7 @@
                     <h4>บริการ:</h4>
                     <p>มีบริการอัดภาพใส่กรอบสวยงาม หรือรับเป็นไฟล์ดิจิทัลคุณภาพสูงเพื่อนำไปใช้งานต่อได้ นอกจากนี้ยังมีของที่ระลึกอื่นๆ จำหน่ายอีกด้วย</p>
                 `,
-                image: 'https://i.ibb.co/dG6TzJ1/souvenir-photo.jpg'
+                image: 'https://www.brandbuffet.in.th/wp-content/uploads/2014/09/NFC-samsung-printer.jpg'
             },
             cafe: {
                 title: 'จุดให้บริการคาเฟ่',
@@ -265,7 +269,7 @@
                     <h4>เกร็ดความรู้: เรือคายัค</h4>
                     <p>เรือคายัคมีต้นกำเนิดมาจากชาวเอสกิโมในแถบอาร์กติก ถูกออกแบบมาให้มีน้ำหนักเบาและคล่องตัวสูง เดิมใช้ในการล่าสัตว์และเดินทางในน่านน้ำที่เย็นจัด ปัจจุบันได้กลายเป็นกิจกรรมสันทนาการที่ได้รับความนิยมไปทั่วโลก</p>
                 `,
-                image: 'https://i.ibb.co/k3bCq0B/kayaking-lake.jpg'
+                image: 'https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/526611188_25019737277615606_8886532318153230456_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MIsyyU-0dNMQ7kNvwEaMieI&_nc_oc=AdkVJtBn9VYsPVPR-XzYYOG4uj-BownEYbn_oEdj7ecr_t8HMB6ZXEsCcXWYhzyzd2vRi2h4wbwjXWZbStdfKGmQ&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=GYst7HCLbiu4G3ImzXp32w&oh=00_AfQK58oEyVueNv436oFpVbZ75At4s18AaTEh7NDZ3v-yfQ&oe=6892946C'
             },
             'sheep-feed': {
                 title: 'จุดให้อาหารแกะ',
@@ -281,7 +285,7 @@
                 description: `
                     <p>จำหน่ายหญ้าและอาหารสำหรับน้องแกะ และขวดนมสำหรับป้อนลูกแกะแสนน่ารัก นอกจากนี้สามารถซื้อตั๋วขี่มา, พายเรือ และยืมอุปกรณ์สำหรับทำกิจกรรมได้ที่จุดนี้เลยครับ</p>
                 `,
-                image: 'https://i.ibb.co/pwnxYp8/bottle-feeding-lamb.jpg'
+                image: 'https://scontent.fbkk12-6.fna.fbcdn.net/v/t39.30808-6/526683161_800859345597786_6743849956517527767_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_ohc=vUavB78sTLMQ7kNvwHoC15Z&_nc_oc=AdktFo3lnDXIm5_EF3NX7HZMHcoCOrOdPut2nS3rv6u29T3noKRPF5MpWtmSlM2xjKrBw7uu_L1Z17C8evgDZzG9&_nc_zt=23&_nc_ht=scontent.fbkk12-6.fna&_nc_gid=Q0f2Ur0Ut2acS4G0vp4Q2g&oh=00_AfT4Fh7kIyUAgV6UJVb7HPyb7XblHtez2sK5dSVvZkf-3w&oe=6892C6C7'
             },
             duck: {
                 title: 'จุดเลี้ยงเป็ดปักกิ่ง',
@@ -290,7 +294,7 @@
                     <h4>เกร็ดความรู้: เป็ดปักกิ่ง</h4>
                     <p>แม้จะมีชื่อว่า "เป็ดปักกิ่ง" แต่เป็ดสายพันธุ์นี้กลับถูกพัฒนาและโด่งดังในประเทศสหรัฐอเมริกา มีลักษณะเด่นคือขนสีขาวล้วน ตัวตั้งตรง และปากสีส้มสดใส เป็นเป็ดที่นิยมเลี้ยงเพื่อเอาเนื้อและไข่ แต่ในฟาร์มของเรา พวกมันคือเพื่อนแสนน่ารักของนักท่องเที่ยว</p>
                 `,
-                image: 'https://i.ibb.co/mHkPzYv/pekin-ducks.jpg'
+                image: 'https://scontent.fbkk12-3.fna.fbcdn.net/v/t39.30808-6/526264783_25019728230949844_3220160052924626534_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=slMQkuvcZVAQ7kNvwF15ABO&_nc_oc=AdnrpSQ5BWCW9hPEFyHLhL0OuivBY0CyaISXkYvf8lnYp18mgjneMIDjXdo-8E53RvIiXFBwJ2a18CpLXxjmxHBc&_nc_zt=23&_nc_ht=scontent.fbkk12-3.fna&_nc_gid=SRwIPnXjmAK6vho6kzcf-w&oh=00_AfSOOpMHYFLNfKK1m6xHMkYs7rFDH3GmR5AMb3U-kOHAZw&oe=689290F4 '
             },
             peafowl: {
                 title: 'จุดเลี้ยงนกยูงอินเดีย',
@@ -299,21 +303,37 @@
                     <h4>เกร็ดความรู้: นกยูงอินเดีย</h4>
                     <p>นกยูงอินเดีย (Indian Peafowl) เป็นนกประจำชาติของประเทศอินเดีย มีเพียงตัวผู้เท่านั้นที่มีแพนหางยาวสวยงามเพื่อใช้เกี้ยวพาราสีตัวเมีย ลวดลายที่คล้ายดวงตาบนหางนั้นเชื่อกันว่าช่วยข่มขู่ศัตรูและดึงดูดเพศตรงข้าม</p>
                 `,
-                image: 'https://i.ibb.co/34bH4fV/indian-peafowl.jpg'
+                image: 'https://www.khawphayao.com/wp-content/uploads/2023/07/1-1-2.png'
             },
             rabbit: {
                 title: 'จุดให้อาหารกระต่าย',
                 description: `
                     <p>มุมโปรดของเด็กๆ ที่จะได้พบปะกับฝูงกระต่ายหลากหลายสายพันธุ์ที่น่ารักและเป็นมิตร คุณสามารถซื้ออาหาร (เช่น แครอท) เพื่อป้อนให้กับน้องกระต่ายได้อย่างใกล้ชิด เป็นกิจกรรมที่สนุกและปลอดภัย</p>
                 `,
-                image: 'https://i.ibb.co/M8GvBqf/feeding-rabbits.jpg'
+                image: 'https://scontent.fbkk13-2.fna.fbcdn.net/v/t39.30808-6/527102229_25019721290950538_6754808944388152002_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=euUxckAxfdsQ7kNvwEhWUQj&_nc_oc=AdnIYSLdwSN3JoktK0CLM6b_RRREhTpeqWKp0PqPR_MQUlbR73l06NJtdbK-PTQwKpJZOgxW3gyOl8hr-rckwIRp&_nc_zt=23&_nc_ht=scontent.fbkk13-2.fna&_nc_gid=ZSiUBNwvtWZ179VVAbNWFQ&oh=00_AfQYEs-Gr5tqDpJCr54RjPAJbN0TVn6488Idba4gKOW9wA&oe=6892B3D3'
             },
             drawing: {
                 title: 'จุดวาดภาพระบายสี',
                 description: `
                     <p>ปลดปล่อยจินตนาการและความคิดสร้างสรรค์ที่มุมศิลปะของเรา ที่นี่มีอุปกรณ์วาดภาพระบายสีตุ๊กตาปูนปลาสเตอร์รูปสัตว์ต่างๆ ในฟาร์ม เช่น แกะ ม้า กระต่าย ให้คุณได้สร้างสรรค์ผลงานในแบบของตัวเองและนำกลับไปเป็นของที่ระลึกสุดพิเศษ</p>
                 `,
-                image: 'https://i.ibb.co/fHjB20m/kids-painting.jpg'
+                image: 'https://static.cdntap.com/tap-assets-prod/wp-content/uploads/sites/25/2020/04/%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%AA%E0%B8%B52.jpg?width=700&quality=95'
+            },
+            restroom: {
+                title: 'ห้องน้ำ',
+                description: `
+                    <p>ห้องน้ำสะอาดพร้อมให้บริการแก่ทุกท่าน ตั้งอยู่บริเวณใกล้อาคารสำนักงาน เพื่อความสะดวกสบายของนักท่องเที่ยว</p>
+                `,
+                image: 'https://files.ekmcdn.com/signmaker/images/airport-marine-terminal-sign-toilets-symbol-2408--49580-p.png?v=2C868E41-C689-4533-B912-68304DD1A5FA'
+            },
+            'albino-buffalo': {
+                title: 'จุดให้อาหารควายเผือก',
+                description: `
+                    <p>พบกับ 'พี่บัวขาว' ควายเผือกแสนเชื่อง สัตว์มงคลหาชมได้ยาก คุณสามารถป้อนหญ้าและถ่ายรูปกับพี่บัวขาวได้อย่างใกล้ชิด เป็นอีกหนึ่งกิจกรรมที่ไม่ควรพลาด</p>
+                    <h4>เกร็ดความรู้: ควายเผือก</h4>
+                    <p>ควายเผือกไม่ใช่ควายเผือก แต่เป็นภาวะผิวเผือกที่เกิดจากยีนด้อย ทำให้มีสีผิวและขนเป็นสีชมพูขาวไปจนถึงเทาอ่อน ในสมัยโบราณถือเป็นสัตว์ที่มีบารมีและเป็นมงคลแก่ผู้เลี้ยง</p>
+                `,
+                image: 'https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/526809571_25019974090925258_4145043769728070411_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=z0_D0ecz_pkQ7kNvwHyjUio&_nc_oc=Adnw01hfpobpq5ukNDzj-7oiBzqogazxqwTnkVGmXkaEdzoXAUmMHQL2Erxak6M5N3dMJHgqv36-y9MTFBv6iUnm&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=JqFo-Hcker4xi8EH3rgwuw&oh=00_AfTKHpbvWjsArj5AyGatNJDCfYx5tDnX0pFpuNu_axuxkQ&oe=6892B5D7'
             }
         };
 
