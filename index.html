@@ -37,7 +37,7 @@
         #map-container {
             position: relative;
             width: 100%;
-            max-width: 1000px; /* Adjust as needed */
+            max-width: 800px; /* Adjusted max-width for the new map's aspect ratio */
             margin: 20px auto;
             border: 8px solid #ffffff;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -52,17 +52,17 @@
             border-radius: 8px; /* Inner radius */
         }
 
-        /* Point of Interest (POI) Styling */
+        /* Point of Interest (POI) Styling - Updated */
         .poi {
             position: absolute;
-            width: 24px;
-            height: 24px;
-            background-color: #ff5252; /* Bright red */
+            width: 18px; /* Smaller */
+            height: 18px; /* Smaller */
+            background-color: rgba(255, 82, 82, 0.85); /* Slightly transparent */
             border-radius: 50%;
-            border: 3px solid white;
+            border: 2px solid white; /* Thinner border */
             cursor: pointer;
             transform: translate(-50%, -50%);
-            animation: pulse 1.5s infinite;
+            animation: pulse 1.8s infinite; /* Slower animation */
             box-shadow: 0 0 0 rgba(255, 82, 82, 0.4);
             transition: transform 0.3s ease;
         }
@@ -72,34 +72,34 @@
             transform: translate(-50%, -50%) scale(1.4);
         }
 
-        /* Pulsing animation for POIs */
+        /* Pulsing animation for POIs - Updated */
         @keyframes pulse {
             0% {
-                transform: translate(-50%, -50%) scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+                transform: translate(-50%, -50%) scale(0.9);
+                box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.5);
             }
             70% {
-                transform: translate(-50%, -50%) scale(1.1);
-                box-shadow: 0 0 0 12px rgba(255, 82, 82, 0);
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
             }
             100% {
-                transform: translate(-50%, -50%) scale(0.95);
+                transform: translate(-50%, -50%) scale(0.9);
                 box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
             }
         }
         
-        /* POI Positions (% of map width/height) */
-        #poi-tickets { top: 85%; left: 15%; }
-        #poi-photos { top: 83%; left: 25%; }
-        #poi-cafe { top: 87%; left: 35%; }
-        #poi-horse { top: 40%; left: 18%; }
-        #poi-kayak { top: 20%; left: 75%; }
-        #poi-sheep-feed { top: 58%; left: 50%; }
-        #poi-lamb-feed { top: 70%; left: 60%; }
-        #poi-duck { top: 55%; left: 80%; }
-        #poi-peafowl { top: 35%; left: 85%; }
-        #poi-rabbit { top: 75%; left: 78%; }
-        #poi-drawing { top: 88%; left: 45%; }
+        /* POI Positions based on STD_MAP.jpg */
+        #poi-tickets { top: 90%; left: 7%; }
+        #poi-photos { top: 78%; left: 30%; } /* Marked on "Shop" */
+        #poi-cafe { top: 24%; left: 45%; }
+        #poi-horse { top: 41%; left: 36%; }
+        #poi-kayak { top: 35%; left: 80%; }
+        #poi-sheep-feed { top: 26%; left: 16.5%; }
+        #poi-lamb-feed { top: 15%; left: 23%; } /* Placed near sheep area */
+        #poi-duck { top: 12%; left: 74%; }
+        #poi-peafowl { top: 16.5%; left: 75%; }
+        #poi-rabbit { top: 30%; left: 77%; }
+        #poi-drawing { top: 30.5%; left: 72%; }
 
         /* Modal (Popup) Styling */
         .modal {
@@ -162,10 +162,10 @@
         #modal-image {
             width: 100%;
             height: 300px;
-            object-fit: cover;
+            object-fit: contain; /* Changed to 'contain' to ensure the whole image is visible */
             border-radius: 10px;
             margin-bottom: 20px;
-            background-color: #eee;
+            background-color: #f8f8f8; /* Lighter background for contain */
         }
 
         #modal-title {
@@ -191,21 +191,20 @@
 </head>
 <body>
 
-    <h1>แผนที่อินเทอร์แอคทีฟ Stardoi Khaoyai Sheep Farm</h1>
+    <h1>Stardoi Khaoyai Sheep Farm</h1>
     <p>ยินดีต้อนรับสู่ฟาร์มแกะสตาร์ดอย เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา</p>
 
     <div id="map-container">
-        <!-- Map image. Using a generic layout for demonstration. -->
-        <img id="map-image" src="https://scontent.fbkk22-7.fna.fbcdn.net/v/t39.30808-6/519444931_24914745361448132_4039850950799364795_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=3BLsdLzezFMQ7kNvwHzMiV7&_nc_oc=Adma0CpUr5tBW2uOMXlrLpQio4Iaa4DR50MnhFbzYRMNVSoTQ8XxFtNpTghKtWqmkdWABruMRk-CwVabDBj4B_Z8&_nc_zt=23&_nc_ht=scontent.fbkk22-7.fna&_nc_gid=RAZI6KsgvAJdB0TkmpVD3g&oh=00_AfSCDOVQMH9XspcJQvfGJHraIQZebOkoetfRBwkUDtlW3g&oe=688187DD" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/1000x700/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
+        <img id="map-image" src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/526528912_25018928057696528_9076552687645562827_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=TWAzdBGj2_kQ7kNvwFK0XST&_nc_oc=AdmP945uUJiGcttpbO6LAX-_Vpm-Pu0Q68ct0UGc890QU2JKIS_RH-l812k-og0YNr0YrcmDOoadJVlKbT0Qw6mr&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=2x2lBLv8j5iWEYdlvPB0tw&oh=00_AfTcRjE6Eo7EbBO0DD2j0aIH982ENFAYFrjQpFFqISKYrQ&oe=68928AE8" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/800x1132/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
         
         <!-- Points of Interest (POIs) -->
         <div class="poi" id="poi-tickets" data-id="tickets" title="จุดขายตั๋ว"></div>
-        <div class="poi" id="poi-photos" data-id="photos" title="จุดขายรูปภาพ"></div>
+        <div class="poi" id="poi-photos" data-id="photos" title="จุดขายรูปภาพ/ร้านค้า"></div>
         <div class="poi" id="poi-cafe" data-id="cafe" title="จุดให้บริการคาเฟ่"></div>
         <div class="poi" id="poi-horse" data-id="horse" title="จุดขี่ม้า"></div>
         <div class="poi" id="poi-kayak" data-id="kayak" title="จุดพายเรือคายัค"></div>
         <div class="poi" id="poi-sheep-feed" data-id="sheep-feed" title="จุดให้อาหารแกะ"></div>
-        <div class="poi" id="poi-lamb-feed" data-id="lamb-feed" title="จุดให้นมแกะ"></div>
+        <div class="poi" id="poi-lamb-feed" data-id="lamb-feed" title="จุดขายอาหารแกะและนมแกะ"></div>
         <div class="poi" id="poi-duck" data-id="duck" title="จุดเลี้ยงเป็ดปักกิ่ง"></div>
         <div class="poi" id="poi-peafowl" data-id="peafowl" title="จุดเลี้ยงนกยูงอินเดีย"></div>
         <div class="poi" id="poi-rabbit" data-id="rabbit" title="จุดให้อาหารกระต่าย"></div>
@@ -223,32 +222,32 @@
     </div>
 
     <script>
-        // Data for each Point of Interest with updated image URLs
+        // Data for each Point of Interest (content is unchanged)
         const poiData = {
             tickets: {
                 title: 'จุดขายตั๋ว',
                 description: `
                     <p>เริ่มต้นการผจญภัยในฟาร์มของเราที่นี่! จุดจำหน่ายตั๋วเป็นประตูสู่ความสนุกสนานและกิจกรรมทั้งหมดที่รอคุณอยู่ภายในฟาร์ม นอกจากตั๋วเข้าชมแล้ว ยังสามารถสอบถามข้อมูลโปรโมชั่นและกิจกรรมพิเศษต่างๆ ได้จากเจ้าหน้าที่</p>
                     <h4>เคล็ดลับ:</h4>
-                    <p>ควรซื้อตั๋วสำหรับกิจกรรมต่างๆ เช่น การให้อาหารสัตว์ หรือขี่ม้า ที่นี่ล่วงหน้าเพื่อความสะดวกและรวดเร็ว</p>
+                    <p>ตั๋วสำหรับกิจกรรมต่างๆ เช่น การขี่ม้า พายเรือคายัค สามารถซื้อได้ที่จุดขายอาหารแกะ </p>
                 `,
                 image: 'https://i.ibb.co/yQZgGzJ/farm-ticket-booth.jpg'
             },
             photos: {
-                title: 'จุดขายรูปภาพ',
+                title: 'จุดขายรูปภาพ / ร้านค้า',
                 description: `
                     <p>เก็บความทรงจำดีๆ ที่ฟาร์มของเรากลับบ้าน! ที่จุดนี้มีช่างภาพมืออาชีพคอยให้บริการถ่ายภาพของคุณกับบรรยากาศสวยๆ และน้องแกะที่น่ารัก หลังจากนั้นคุณสามารถเลือกซื้อภาพถ่ายที่สวยที่สุดเป็นที่ระลึกได้</p>
                     <h4>บริการ:</h4>
-                    <p>มีบริการอัดภาพใส่กรอบสวยงาม หรือรับเป็นไฟล์ดิจิทัลคุณภาพสูงเพื่อนำไปใช้งานต่อได้</p>
+                    <p>มีบริการอัดภาพใส่กรอบสวยงาม หรือรับเป็นไฟล์ดิจิทัลคุณภาพสูงเพื่อนำไปใช้งานต่อได้ นอกจากนี้ยังมีของที่ระลึกอื่นๆ จำหน่ายอีกด้วย</p>
                 `,
                 image: 'https://i.ibb.co/dG6TzJ1/souvenir-photo.jpg'
             },
             cafe: {
                 title: 'จุดให้บริการคาเฟ่',
                 description: `
-                    <p>พักเหนื่อยและเติมพลังที่คาเฟ่บรรยากาศดีของเรา ที่นี่มีบริการเครื่องดื่มหลากหลายชนิด ทั้งกาแฟสดหอมกรุ่น ชา และเครื่องดื่มเย็นชื่นใจ พร้อมด้วยขนมเค้กและเบเกอรี่โฮมเมดแสนอร่อย ท่ามกลางวิวทิวทัศน์อันงดงามของฟาร์ม</p>
+                    <p>พักเหนื่อยและเติมพลังที่คาเฟ่บรรยากาศดีของเรา ที่นี่มีบริการเครื่องดื่มหลากหลายชนิด ทั้งกาแฟสดหอมกรุ่น ไอศกรีม และเครื่องดื่มเย็นชื่นใจ พร้อมด้วยขนมเค้กและเบเกอรี่โฮมเมดแสนอร่อย ท่ามกลางวิวทิวทัศน์อันงดงามของฟาร์ม</p>
                 `,
-                image: 'https://i.ibb.co/Yd3bC8p/farm-cafe.jpg'
+                image: 'https://lh3.googleusercontent.com/geougc-cs/AB3l90B8H5B7epLLooXY2bbOjtX-JtttGftUAATdA9Lh-xJssEd_S4XM9_frJLmcWNem3QKze0tpDmmVLSo8clGtv1fITY3S37gq1V0L1VFSL_ZAsFP_UDRmf8gt618gZ9CQJUimehnNcg=s3710-w3710-h1986-rw'
             },
             horse: {
                 title: 'จุดขี่ม้า',
@@ -257,12 +256,12 @@
                     <h4>เกร็ดความรู้: ม้าแข่ง</h4>
                     <p>ม้าที่ใช้ในการแข่งขันนั้นส่วนใหญ่เป็นพันธุ์ "เธอร์รัพเบรด" (Thoroughbred) ที่ถูกพัฒนาขึ้นในประเทศอังกฤษ มีชื่อเสียงด้านความเร็ว ความอดทน และจิตวิญญาณของนักสู้ แม้ว่าม้าที่นี่จะเป็นม้าสำหรับท่องเที่ยว แต่ก็มีสายเลือดที่ดีและได้รับการดูแลอย่างดีเยี่ยมเช่นกัน</p>
                 `,
-                image: 'https://i.ibb.co/hR2k4vD/horse-riding-farm.jpg'
+                image: 'https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/493978390_1142718384536793_9140379534318144009_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=zPATqMjdzTYQ7kNvwHkbGwb&_nc_oc=Adn6-FqFTJ6NbmdTbAden-i9MU-GzarriJbNenj7XX-hzSg13-bAPrFgiYRXf8CorgnbB0cxDb6atc0K0QlTJFjs&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=8svXTy-_CKhAkAGIEglz-g&oh=00_AfQAXhT-FyeBuDQLHnIf1I9NlkRIiL22iRsszrTAZBMK_Q&oe=689296F8'
             },
             kayak: {
                 title: 'จุดพายเรือคายัค',
                 description: `
-                    <p>เปลี่ยนบรรยากาศมาทำกิจกรรมทางน้ำกับการพายเรือคายัคในทะเลสาบของฟาร์ม เป็นกิจกรรมที่สนุกสนานและได้ออกกำลังกายเบาๆ พร้อมชมความงามของธรรมชาติรอบตัว เหมาะสำหรับทุกคนในครอบครัว</p>
+                    <p>เปลี่ยนบรรยากาศมาทำกิจกรรมทางน้ำกับการพายเรือคายัคในน้ำผุดธรรมชาติของฟาร์ม เป็นกิจกรรมที่สนุกสนานและได้ออกกำลังกายเบาๆ พร้อมชมความงามของธรรมชาติรอบตัว เหมาะสำหรับทุกคนในครอบครัว</p>
                     <h4>เกร็ดความรู้: เรือคายัค</h4>
                     <p>เรือคายัคมีต้นกำเนิดมาจากชาวเอสกิโมในแถบอาร์กติก ถูกออกแบบมาให้มีน้ำหนักเบาและคล่องตัวสูง เดิมใช้ในการล่าสัตว์และเดินทางในน่านน้ำที่เย็นจัด ปัจจุบันได้กลายเป็นกิจกรรมสันทนาการที่ได้รับความนิยมไปทั่วโลก</p>
                 `,
@@ -271,16 +270,16 @@
             'sheep-feed': {
                 title: 'จุดให้อาหารแกะ',
                 description: `
-                    <p>ไฮไลท์ของฟาร์มที่ทุกคนรอคอย! มาใกล้ชิดกับฝูงแกะแสนน่ารักและป้อนอาหารให้พวกมันด้วยมือของคุณเอง เป็นกิจกรรมที่สร้างความประทับใจให้กับเด็กๆ และผู้ใหญ่ได้เป็นอย่างดี</p>
+                    <p>ไฮไลท์ของฟาร์มที่ทุกคนรอคอย! มาใกล้ชิดกับฝูงแกะคอร์ริเดลแสนน่ารักและป้อนอาหารให้พวกมันด้วยมือของคุณเอง เป็นกิจกรรมที่สร้างความประทับใจให้กับเด็กๆ และผู้ใหญ่ได้เป็นอย่างดี</p>
                     <h4>เกร็ดความรู้: แกะพันธุ์คอร์ริเดล (Corriedale)</h4>
                     <p>แกะพันธุ์คอร์ริเดลเป็นแกะลูกผสมที่ถูกพัฒนาขึ้นในประเทศนิวซีแลนด์ มีชื่อเสียงจากการเป็น "แกะสองวัตถุประสงค์" คือให้ทั้งขนคุณภาพดีและเนื้อรสเลิศ พวกมันมีขนหนาฟู สีขาวสะอาด และมีนิสัยเป็นมิตร เข้ากับคนง่าย จึงเป็นที่นิยมเลี้ยงในฟาร์มท่องเที่ยวทั่วโลก</p>
                 `,
-                image: 'https://i.ibb.co/yY1kHwX/hand-feeding-sheep.jpg'
+                image: 'https://scontent.fbkk9-2.fna.fbcdn.net/v/t39.30808-6/491421364_1134050348736930_2314510554683255807_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HkAJ0OHWOR4Q7kNvwEIlS6D&_nc_oc=AdkJawNJuD_zlYgXumhttFE23MoUP6RZ4LLM55HLmWwEGtl6tLATRBqGe40tVHfzxOeY_tOte7rY1Y4R_3mCnPWD&_nc_zt=23&_nc_ht=scontent.fbkk9-2.fna&_nc_gid=wdOeB54VqlwX1hs0nz9Z6g&oh=00_AfTRTkNOLfj7YmQiQZFiZJh7MgRJFV2CW9FIhP2ZqXoBMA&oe=68929DEC'
             },
             'lamb-feed': {
-                title: 'จุดให้นมลูกแกะ',
+                title: 'จุดขายอาหารแกะและนมแกะ',
                 description: `
-                    <p>สัมผัสความน่ารักบริสุทธิ์ของเหล่าลูกแกะตัวน้อยในโซนอนุบาล คุณสามารถป้อนนมจากขวดให้ลูกแกะได้อย่างใกล้ชิด เป็นภาพที่น่าเอ็นดูและเป็นประสบการณ์ที่หาได้ยาก รับรองว่าจะทำให้คุณใจละลาย</p>
+                    <p>จำหน่ายหญ้าและอาหารสำหรับน้องแกะ และขวดนมสำหรับป้อนลูกแกะแสนน่ารัก นอกจากนี้สามารถซื้อตั๋วขี่มา, พายเรือ และยืมอุปกรณ์สำหรับทำกิจกรรมได้ที่จุดนี้เลยครับ</p>
                 `,
                 image: 'https://i.ibb.co/pwnxYp8/bottle-feeding-lamb.jpg'
             },
