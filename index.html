@@ -211,11 +211,10 @@
 
         #modal-image {
             width: 100%;
-            height: 300px;
+            max-height: 45vh;
             object-fit: contain;
             border-radius: 10px;
             margin-bottom: 20px;
-            background-color: #f8f8f8;
             animation: image-enter 0.5s ease-out;
             transition: transform 0.4s ease;
         }
@@ -256,7 +255,7 @@
     </div>
 
     <h1 data-translate-key="main_title">Stardoi Farm Khaoyai</h1>
-    <p data-translate-key="main_subtitle">ยินดีต้อนรับสู่ฟาร์มแกะสตาร์ดอย เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา</p>
+    <p data-translate-key="main_subtitle">ยินดีต้อนรับสู่สตาร์ดอยฟาร์ม เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา</p>
 
     <div id="map-container">
         <img id="map-image" src="https://scontent.fbkk13-2.fna.fbcdn.net/v/t39.30808-6/527492897_25019704560952211_5129021553588421158_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=gSyRfH2a6l0Q7kNvwH19c_u&_nc_oc=Admvbt-zg9IjfYjoMEovMPnIxtB6jCT6N-fyEnrPhDo1tvcQ4W6pa5OVR_UvnQlnl_IX8kWOcsOLJwH_ti_WZD6j&_nc_zt=23&_nc_ht=scontent.fbkk13-2.fna&_nc_gid=a_g3BBlgaSSUUU2xuNMJSA&oh=00_AfRl2dZQ0QvAuIpAMTkWY57aXBMlgTlR3_REK9h1g9wQfA&oe=68929D00" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/800x1132/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
@@ -295,8 +294,8 @@
 
         const translations = {
             main_title: {
-                th: 'Stardoi FarmKhaoyai',
-                en: 'Stardoi FarmKhaoyai',
+                th: 'Stardoi Farm Khaoyai',
+                en: 'Stardoi Farm Khaoyai',
                 zh: 'Stardoi Farm Khaoyai'
             },
             main_subtitle: {
@@ -475,15 +474,15 @@
             restroom: {
                 th: {
                     title: 'ห้องน้ำ',
-                    description: `<p>ห้องน้ำสะอาดพร้อมให้บริการแก่ทุกท่าน ตั้งอยู่บริเวณใกล้อาคารสำนักงาน เพื่อความสะดวกสบายของนักท่องเที่ยว</p>`
+                    description: `<p>ห้องน้ำสะอาดพร้อมให้บริการแก่ทุกท่าน ตั้งอยู่บริเวณใกล้คาเฟ่ เพื่อความสะดวกสบายของนักท่องเที่ยว</p>`
                 },
                 en: {
                     title: 'Restrooms',
-                    description: `<p>Clean restrooms are available for everyone, located near the office building for your convenience.</p>`
+                    description: `<p>Clean restrooms are available for everyone, located near the café for your convenience.</p>`
                 },
                 zh: {
                     title: '洗手间',
-                    description: `<p>为方便游客，干净的洗手间位于办公楼附近，供大家使用。</p>`
+                    description: `<p>为方便游客，干净的洗手间位于咖啡厅附近，供大家使用。</p>`
                 },
                 image: 'https://files.ekmcdn.com/signmaker/images/airport-marine-terminal-sign-toilets-symbol-2408--49580-p.png?v=2C868E41-C689-4533-B912-68304DD1A5FA'
             },
@@ -591,11 +590,10 @@
             };
             utterance.lang = langMap[currentLang];
 
-            // --- NEW: Voice Selection Logic ---
-            // Find a preferred female voice for the current language.
+            // --- UPDATED: Voice Selection Logic ---
             const femaleVoice = voices.find(voice => 
-                voice.lang === utterance.lang && 
-                (voice.name.includes('Female') || voice.name.includes('Kanya') || voice.gender === 'female' || voice.name.includes('女'))
+                voice.lang.startsWith(utterance.lang.substring(0, 2)) && // Match base language (e.g., 'zh')
+                (voice.name.includes('Female') || voice.name.includes('Kanya') || voice.gender === 'female' || voice.name.includes('女') || voice.name.includes('Ting-Ting'))
             );
 
             if (femaleVoice) {
