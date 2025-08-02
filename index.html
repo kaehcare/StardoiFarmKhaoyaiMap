@@ -6,7 +6,7 @@
     <title>แผนที่ Stardoi Farm Khaoyai</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Rye&display=swap" rel="stylesheet">
     <style>
         /* General Styling */
         body {
@@ -21,7 +21,13 @@
             color: #333;
         }
 
+        /* English Font Style */
+        body.lang-en, body.lang-en .modal-content {
+            font-family: 'Rye', cursive;
+        }
+
         h1 {
+            font-family: 'Rye', cursive; /* Apply Rye to H1 for all languages */
             color: #4CAF50;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
             text-align: center;
@@ -55,6 +61,9 @@
             border-radius: 7px;
             transition: background-color 0.3s, color 0.3s;
             color: #555;
+        }
+        body.lang-en .lang-btn {
+             font-family: 'Kanit', sans-serif; /* Keep button font consistent */
         }
 
         .lang-btn.active {
@@ -301,8 +310,8 @@
         }
 
         .fab {
-            width: 50px; /* Smaller */
-            height: 50px; /* Smaller */
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -327,7 +336,7 @@
             background-color: white;
         }
         #fun-fact-btn img {
-            width: 28px; /* Smaller icon */
+            width: 28px;
             height: 28px;
             object-fit: contain;
         }
@@ -485,7 +494,10 @@
                 th: { title: 'จุดพายเรือคายัค', description: `<p>เปลี่ยนบรรยากาศมาทำกิจกรรมทางน้ำกับการพายเรือคายัคในน้ำผุดธรรมชาติของฟาร์ม เป็นกิจกรรมที่สนุกสนานสำหรับทุกคนในครอบครัว</p>` },
                 en: { title: 'Kayaking', description: `<p>Switch things up with a water activity! Enjoy kayaking in the farm's natural spring. A fun activity for the whole family.</p>` },
                 zh: { title: '皮划艇', description: `<p>换个花样，来参加水上活动吧！在农场的天然泉水中享受皮划艇的乐趣。这是一项适合全家人的有趣活动。</p>` },
-                image: 'https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/526611188_25019737277615606_8886532318153230456_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MIsyyU-0dNMQ7kNvwEaMieI&_nc_oc=AdkVJtBn9VYsPVPR-XzYYOG4uj-BownEYbn_oEdj7ecr_t8HMB6ZXEsCcXWYhzyzd2vRi2h4wbwjXWZbStdfKGmQ&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=GYst7HCLbiu4G3ImzXp32w&oh=00_AfQK58oEyVueNv436oFpVbZ75At4s18AaTEh7NDZ3v-yfQ&oe=6892946C'
+                images: [
+                    'https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/526611188_25019737277615606_8886532318153230456_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MIsyyU-0dNMQ7kNvwEaMieI&_nc_oc=AdkVJtBn9VYsPVPR-XzYYOG4uj-BownEYbn_oEdj7ecr_t8HMB6ZXEsCcXWYhzyzd2vRi2h4wbwjXWZbStdfKGmQ&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=GYst7HCLbiu4G3ImzXp32w&oh=00_AfQK58oEyVueNv436oFpVbZ75At4s18AaTEh7NDZ3v-yfQ&oe=6892946C',
+                    'https://scontent.fbkk13-1.fna.fbcdn.net/v/t39.30808-6/526818959_25025778617011472_6301725849209879989_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=r0v_JrAtMsIQ7kNvwGh243D&_nc_oc=AdmTam-HSeS3j7fUMrLDP1QQyvYJVzf1BcAjoBrNFhMcfm4lKNZCALy8714l9waQ4N2dlHDmJkVsaxTCG17IC3nO&_nc_zt=23&_nc_ht=scontent.fbkk13-1.fna&_nc_gid=uW1RHEVa5DsL0enQ6fEOAA&oh=00_AfRgNR_XYsryWF_O7ZwCrLUziXbnJJd0p5YlyuY40mnkvA&oe=68938EC2'
+                ]
             },
             'sheep-feed': {
                 th: { title: 'จุดให้อาหารแกะ', description: `<p>ไฮไลท์ของฟาร์ม! มาใกล้ชิดกับฝูงแกะคอร์ริเดลแสนน่ารักและป้อนอาหารให้พวกมันด้วยมือของคุณเอง</p><h4>เกร็ดความรู้:</h4><p>แกะพันธุ์คอร์ริเดลมีชื่อเสียงจากการให้ทั้งขนคุณภาพดีและเนื้อรสเลิศ</p>` },
@@ -533,7 +545,10 @@
                 th: { title: 'จุดให้อาหารควายเผือก', description: `<p>พบกับ 'พี่บัวขาว' ควายเผือกแสนเชื่อง สัตว์มงคลหาชมได้ยาก คุณสามารถป้อนหญ้าและถ่ายรูปกับพี่บัวขาวได้อย่างใกล้ชิด</p><h4>เกร็ดความรู้:</h4><p>ควายเผือกเกิดจากภาวะผิวเผือกที่เกิดจากยีนด้อย ในสมัยโบราณถือเป็นสัตว์มงคล</p>` },
                 en: { title: 'Albino Buffalo Feeding', description: `<p>Meet 'P'Buakaw,' our gentle albino buffalo, a rare and auspicious animal. You can feed him grass and take photos up close.</p><h4>Fun Fact:</h4><p>Albino buffaloes result from a recessive gene causing albinism and were considered auspicious in ancient times.</p>` },
                 zh: { title: '白化水牛喂食', description: `<p>来见见我们温顺的白化水牛“P'Buakaw”，这是一种罕见而吉祥的动物。您可以近距离喂它草并与它合影。</p><h4>小知识:</h4><p>白化水牛是由隐性基因引起的白化病造成的，在古代被认为是吉祥的动物。</p>` },
-                image: 'https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/526809571_25019974090925258_4145043769728070411_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=z0_D0ecz_pkQ7kNvwHyjUio&_nc_oc=Adnw01hfpobpq5ukNDzj-7oiBzqogazxqwTnkVGmXkaEdzoXAUmMHQL2Erxak6M5N3dMJHgqv36-y9MTFBv6iUnm&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=JqFo-Hcker4xi8EH3rgwuw&oh=00_AfTKHpbvWjsArj5AyGatNJDCfYx5tDnX0pFpuNu_axuxkQ&oe=6892B5D7'
+                images: [
+                    'https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/526809571_25019974090925258_4145043769728070411_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=z0_D0ecz_pkQ7kNvwHyjUio&_nc_oc=Adnw01hfpobpq5ukNDzj-7oiBzqogazxqwTnkVGmXkaEdzoXAUmMHQL2Erxak6M5N3dMJHgqv36-y9MTFBv6iUnm&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=JqFo-Hcker4xi8EH3rgwuw&oh=00_AfTKHpbvWjsArj5AyGatNJDCfYx5tDnX0pFpuNu_axuxkQ&oe=6892B5D7',
+                    'https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/526433073_25025778850344782_6935274094859269029_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yWajgUhj-VUQ7kNvwEiR9he&_nc_oc=AdmV83-gR22r2W4951k0OdRbBq4uc4r7ddHIulVtmpeReMX3Qp8zztdwUFOTe5HJ-Ky_3UitOuN64XQ0soEQt7XK&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=SXHNARUatlt-3K4tI_1dwg&oh=00_AfTi4sZwWYX0dw7p2J4xRNAhwE4IufsRMeDdJ3QB0jpzpA&oe=6893A940'
+                ]
             },
             souvenirs: {
                 th: { title: 'จุดจำหน่ายของที่ละลึกจากขนแกะและผลิตภัณฑ์จากแกะคอร์ริเดล', description: `<p>เลือกซื้อผลิตภัณฑ์จากแกะคอร์ริเดล และตุ๊กตาขนแกะนุ่มฟู ของฝากสุดพิเศษจากฟาร์มของเรา</p>` },
@@ -589,6 +604,7 @@
             speechSynthesis.cancel();
             currentLang = lang;
             document.documentElement.lang = lang;
+            document.body.className = `lang-${lang}`; // Set body class for font switching
 
             document.querySelectorAll('[data-translate-key]').forEach(el => {
                 const key = el.dataset.translateKey;
@@ -744,4 +760,3 @@
     </script>
 </body>
 </html>
-
