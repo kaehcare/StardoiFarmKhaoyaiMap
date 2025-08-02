@@ -32,6 +32,21 @@
             max-width: 800px;
             color: #555;
         }
+        
+        /* --- Logo --- */
+        #logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+        #logo-container img {
+            height: 60px;
+            width: 60px; /* Make it square */
+            object-fit: cover; /* Ensure image covers the area */
+            border-radius: 50%; /* Make it circular */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
 
         /* Language Switcher */
         #lang-switcher {
@@ -123,7 +138,7 @@
         #poi-restroom { top: 22.5%; left: 41%; } 
         #poi-albino-buffalo { top: 78.5%; left: 18%; }
         #poi-souvenirs { top: 28%; left: 9.75%; }
-        #poi-snacks { top: 72%; left: 33%; } /* New Snack POI */
+        #poi-snacks { top: 72%; left: 33%; }
 
         /* Modal (Popup) Styling */
         .modal {
@@ -288,9 +303,74 @@
             margin-top: 20px;
             margin-bottom: 10px;
         }
+        
+        /* --- Floating Action Buttons Container --- */
+        #fab-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            padding: 0;
+            overflow: hidden; /* Important for cropping image */
+        }
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        .fab img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #fun-fact-btn {
+            background-color: white;
+        }
+        #fun-fact-btn img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+        
+        #facebook-btn, #tiktok-btn {
+            background-color: transparent; /* Remove button background */
+        }
+        
+        /* Fact Modal Styles */
+        #fact-modal-content {
+            text-align: center;
+        }
+        #fact-title {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        #fact-text {
+            font-size: 1.2em;
+            color: #333;
+        }
+
     </style>
 </head>
 <body>
+
+    <a id="logo-container" href="#">
+        <img src="https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/463281658_985726796902620_1641803619335139255_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=fewiPEjOg08Q7kNvwGyhdD8&_nc_oc=AdnPDEJVzOpHlUs5QSqptFw4ZWsNaltulNOFl44ef_xQQFAs4hJ5aD5shumbt9Q-cFd-BLYkZSqvHAhY0ikX-No3&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=aGk6tgUKZeb5grZGm5c8lA&oh=00_AfQbwvxqbzeGTj9EHW6WmRvzFR9JZI7jz0sNhV559YB25Q&oe=6893767D" alt="Stardoi Farm Logo">
+    </a>
 
     <div id="lang-switcher">
         <button class="lang-btn active" data-lang="th">ไทย</button>
@@ -318,7 +398,19 @@
         <div class="poi" id="poi-restroom" data-id="restroom"></div>
         <div class="poi" id="poi-albino-buffalo" data-id="albino-buffalo"></div>
         <div class="poi" id="poi-souvenirs" data-id="souvenirs"></div>
-        <div class="poi" id="poi-snacks" data-id="snacks"></div> <!-- New Snack POI -->
+        <div class="poi" id="poi-snacks" data-id="snacks"></div>
+    </div>
+
+    <div id="fab-container">
+        <a id="tiktok-btn" class="fab" href="https://www.tiktok.com/@somkidstardoi" target="_blank" title="TikTok">
+            <img src="https://i.pinimg.com/736x/0b/db/be/0bdbbef30f3d9833eb35f3befadd4b27.jpg" alt="TikTok">
+        </a>
+        <a id="facebook-btn" class="fab" href="https://www.facebook.com/stardoifarmkhaoyai" target="_blank" title="Facebook Page">
+            <img src="https://s.yimg.com/zb/imgv1/ff6c2336-05c2-34bf-8d42-c8eb48fbacf1/t_500x300" alt="Facebook">
+        </a>
+        <button id="fun-fact-btn" class="fab">
+            <img src="https://cdn-icons-png.flaticon.com/512/9908/9908215.png" alt="Fun Fact">
+        </button>
     </div>
 
     <div id="infoModal" class="modal">
@@ -335,6 +427,14 @@
         </div>
     </div>
 
+    <div id="factModal" class="modal">
+        <div class="modal-content" id="fact-modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="fact-title"></h2>
+            <p id="fact-text"></p>
+        </div>
+    </div>
+
     <script>
         let currentLang = 'th'; // Default language
 
@@ -348,6 +448,21 @@
                 th: 'ยินดีต้อนรับสู่สตาร์ดอยฟาร์ม เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา',
                 en: 'Welcome to Stardoi Farm Khaoyai ! Click on the flashing red dots on the map to explore and learn about the interesting activities within our farm.',
                 zh: '欢迎来到 Stardoi Farm Khaoyai 绵羊农场！点击地图上闪烁的红点，探索和了解我们农场内有趣的活动。'
+            },
+            fun_fact_title: {
+                th: 'เกร็ดความรู้!',
+                en: 'Fun Fact!',
+                zh: '趣闻！'
+            },
+            fun_fact_tooltip: {
+                th: 'เกร็ดความรู้สุ่ม',
+                en: 'Random Fun Fact',
+                zh: '随机趣闻'
+            },
+            tiktok_tooltip: {
+                th: 'TikTok',
+                en: 'TikTok',
+                zh: '抖音'
             }
         };
 
@@ -453,6 +568,21 @@
             }
         };
 
+        const funFacts = {
+            th: [
+                "แกะมีรูม่านตาเป็นสี่เหลี่ยมผืนผ้า ทำให้มองเห็นได้เกือบ 360 องศา", "นกยูงตัวผู้เท่านั้นที่รำแพนหางได้ เพื่อดึงดูดตัวเมีย", "ควายเผือกไม่ใช่สัตว์เผือกจริงๆ แต่เป็นภาวะทางพันธุกรรมที่ทำให้มีสีชมพู", "กระต่ายสามารถกระโดดได้สูงถึง 1 เมตร และไกลถึง 3 เมตร", "เป็ดสามารถหลับตาข้างเดียวได้ เพื่อระวังภัยในขณะที่พักผ่อน",
+                "แกะพันธุ์คอร์ริเดลเกิดจากการผสมข้ามพันธุ์ระหว่างแกะพันธุ์ลินคอล์นและเมอริโน", "ขนของแกะคอร์ริเดลมีความหนาแน่นและยาว เหมาะสำหรับทำเส้นด้ายคุณภาพสูง", "แกะคอร์ริเดลตัวเต็มวัยสามารถให้ขนได้มากถึง 5-7 กิโลกรัมต่อปี", "แกะคอร์ริเดลปรับตัวได้ดี สามารถเลี้ยงได้ในสภาพอากาศที่หลากหลาย", "แกะคอร์ริเดลมีนิสัยสงบและเป็นมิตร ทำให้ง่ายต่อการจัดการในฟาร์ม", "แกะคอร์ริเดลไม่มีเขา ทั้งในตัวผู้และตัวเมีย", "ชื่อ 'คอร์ริเดล' มาจากชื่อฟาร์มในนิวซีแลนด์ที่พัฒนาสายพันธุ์นี้ขึ้นมา", "ลูกแกะคอร์ริเดลเติบโตเร็วและมีโครงสร้างร่างกายที่แข็งแรง", "ม้าจะยืนหลับ แต่เมื่อต้องการหลับลึก พวกมันจะนอนลง", "หัวใจของม้ามีน้ำหนักประมาณ 4.5 กิโลกรัม", "เสียงร้องของนกยูงดังมากและใช้เพื่อเตือนภัยได้", "กระต่ายจะกินมูลของตัวเองชนิดพิเศษ เพื่อดูดซึมสารอาหารให้ได้มากที่สุด", "ควายชอบแช่โคลนเพื่อป้องกันแมลงและแสงแดด", "ม้ามีมุมมองเกือบ 360 องศา แต่มีจุดบอดอยู่ตรงหน้าและหลังของมันโดยตรง"
+            ],
+            en: [
+                "Sheep have rectangular pupils, giving them almost 360-degree vision.", "Only male peacocks can display their tail feathers to attract mates.", "Albino buffaloes are not true albinos but have a genetic condition that gives them a pinkish color.", "Rabbits can jump up to 1 meter high and 3 meters long.", "Ducks can sleep with one eye open to watch for predators while resting.",
+                "Corriedale sheep originated from a cross between Lincoln and Merino sheep.", "Corriedale wool is dense and long, ideal for high-quality yarn.", "An adult Corriedale can produce up to 5-7 kg of wool annually.", "They are highly adaptable and can be raised in various climates.", "They have a calm and friendly temperament, making them easy to manage.", "Both rams and ewes are naturally polled (hornless).", "The name 'Corriedale' comes from the New Zealand farm where the breed was developed.", "Corriedale lambs grow quickly and have a strong frame.", "Horses sleep standing up but lie down for deep REM sleep.", "A horse's heart weighs about 4.5 kilograms.", "A peacock's call is very loud and can be used as an alarm.", "Rabbits eat their own special droppings (cecotropes) to absorb maximum nutrients.", "Buffaloes love mud baths to protect against insects and the sun.", "Horses have nearly 360-degree vision but have blind spots directly in front and behind them."
+            ],
+            zh: [
+                "绵羊的瞳孔是长方形的，这使它们拥有近360度的视野。", "只有雄性孔雀才能展示它们的尾羽来吸引配偶。", "白化水牛并非真正的白化病，而是一种遗传病，使其呈现粉红色。", "兔子可以跳到1米高，3米远。", "鸭子可以睁一只眼闭一只眼睡觉，以便在休息时警惕捕食者。",
+                "科里代尔羊是由林肯羊和美利奴羊杂交而成。", "科里代尔羊毛浓密而长，是制作高品质纱线的理想选择。", "一只成年科里代尔羊每年可产毛5-7公斤。", "它们适应性强，可在多种气候下饲养。", "它们性情温和友好，易于管理。", "公羊和母羊天生无角。", "“科里代尔”这个名字来源于新西兰开发该品种的农场。", "科里代尔羔羊生长迅速，体格强壮。", "马站着睡觉，但需要躺下才能进入深度快速眼动睡眠。", "一匹马的心脏重约4.5公斤。", "孔雀的叫声非常响亮，可以用作警报。", "兔子会吃自己的特殊粪便（盲肠便）以吸收最多的营养。", "水牛喜欢泥浴以防止昆虫和阳光照射。", "马的视野接近360度，但在正前方和正后方有盲点。"
+            ]
+        };
+
         // Get Modal elements
         const modal = document.getElementById('infoModal');
         const modalTitle = document.getElementById('modal-title');
@@ -460,6 +590,10 @@
         const modalDescription = document.getElementById('modal-description');
         const closeButton = document.querySelector('.close-button');
         const speakButton = document.getElementById('speak-btn');
+        const funFactBtn = document.getElementById('fun-fact-btn');
+        const factModal = document.getElementById('factModal');
+        const factTitle = document.getElementById('fact-title');
+        const factText = document.getElementById('fact-text');
         
         let voices = [];
         function populateVoiceList() {
@@ -492,6 +626,8 @@
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
+            funFactBtn.title = translations.fun_fact_tooltip[currentLang];
+            document.getElementById('tiktok-btn').title = translations.tiktok_tooltip[currentLang];
         }
 
         let slideIndex = 1;
@@ -583,20 +719,42 @@
             speechSynthesis.speak(utterance);
         });
 
-        function closeModal() {
+        // --- Fun Fact Logic ---
+        funFactBtn.addEventListener('click', () => {
+            const factsInCurrentLang = funFacts[currentLang];
+            const randomIndex = Math.floor(Math.random() * factsInCurrentLang.length);
+            const randomFact = factsInCurrentLang[randomIndex];
+
+            factTitle.textContent = translations.fun_fact_title[currentLang];
+            factText.textContent = randomFact;
+            factModal.style.display = 'flex';
+        });
+
+        function closeModal(modalElement) {
             speechSynthesis.cancel(); 
-            modal.style.display = 'none';
+            modalElement.style.display = 'none';
         }
 
-        closeButton.addEventListener('click', closeModal);
+        // Close logic for main modal
+        modal.querySelector('.close-button').addEventListener('click', () => closeModal(modal));
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
-                closeModal();
+                closeModal(modal);
             }
         });
+
+        // Close logic for fact modal
+        factModal.querySelector('.close-button').addEventListener('click', () => closeModal(factModal));
+        window.addEventListener('click', (event) => {
+            if (event.target === factModal) {
+                closeModal(factModal);
+            }
+        });
+
         window.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-                closeModal();
+                closeModal(modal);
+                closeModal(factModal);
             }
         });
 
