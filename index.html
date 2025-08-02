@@ -118,7 +118,7 @@
         }
         
         /* POI Positions */
-        #poi-tickets { top: 90%; left: 7%; }
+        #poi-tickets { top: 88%; left: 7%; }
         #poi-photos { top: 78%; left: 30%; }
         #poi-cafe { top: 24%; left: 45%; }
         #poi-horse { top: 42%; left: 18%; }
@@ -372,7 +372,7 @@
     <p data-translate-key="main_subtitle">ยินดีต้อนรับสู่สตาร์ดอยฟาร์ม เขาใหญ่! คลิกที่จุดกระพริบสีแดงบนแผนที่เพื่อสำรวจและเรียนรู้เกี่ยวกับกิจกรรมต่างๆ ที่น่าสนใจภายในฟาร์มของเรา</p>
 
     <div id="map-container">
-        <img id="map-image" src="https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/526430112_25027653756823958_3006722953682378273_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=QJM5dX8MRhwQ7kNvwGL0UZ6&_nc_oc=Adlg1o3VzrCUcUPuey2G641vKg6nc_0Ktl42jFNUSVVNjjHaHjzuQq7U9PGA10HpZPpKgCl-VI21IY407ijI-_6i&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=vj4WfBDVEEcBKrFn9jZOxA&oh=00_AfTZmWECiQbo7-tGnbC5cCYF_Jn_ABwgkfOMuMocIk4z_A&oe=6893D855" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/800x1132/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
+        <img id="map-image" src="https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/527736621_25028331356756198_3947120456626088091_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=OgojzoraltgQ7kNvwEqmdge&_nc_oc=AdkvTOYX1uVfF7mgTH508Wm1ok3_00Wlo1N3zuCt5RHcW7duiBfLuNTjBq0DNsj87hGpXMGYT9UvMdVIJWkU761R&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=33hVRo0II8g2IAzUtRHp6A&oh=00_AfQGhsFgkZ9Qt6xM88hsPc_gS5KaFBbJKciWcyQmADJ3hQ&oe=689407B5" alt="แผนที่ฟาร์มแกะ Stardoi Khaoyai" onerror="this.onerror=null;this.src='https://placehold.co/800x1132/a8e6cf/ffffff?text=แผนที่ฟาร์ม';">
         
         <div class="poi" id="poi-tickets" data-id="tickets"></div>
         <div class="poi" id="poi-photos" data-id="photos"></div>
@@ -645,7 +645,8 @@
         }
 
         document.querySelectorAll('.poi').forEach(poi => {
-            poi.addEventListener('click', () => {
+            const openModal = (event) => {
+                event.preventDefault();
                 const poiId = poi.dataset.id;
                 const data = poiData[poiId];
 
@@ -676,13 +677,18 @@
                     
                     modal.style.display = 'flex';
                 }
-            });
+            };
+            poi.addEventListener('click', openModal);
+            poi.addEventListener('touchstart', openModal, {passive: false});
         });
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            const switchLangHandler = (event) => {
+                event.preventDefault();
                 switchLanguage(btn.dataset.lang);
-            });
+            };
+            btn.addEventListener('click', switchLangHandler);
+            btn.addEventListener('touchstart', switchLangHandler, {passive: false});
         });
 
         speakButton.addEventListener('click', () => {
@@ -760,5 +766,3 @@
     </script>
 </body>
 </html>
-
-
