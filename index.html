@@ -32,21 +32,6 @@
             max-width: 800px;
             color: #555;
         }
-        
-        /* --- Logo --- */
-        #logo-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-        }
-        #logo-container img {
-            height: 60px;
-            width: 60px; /* Make it square */
-            object-fit: cover; /* Ensure image covers the area */
-            border-radius: 50%; /* Make it circular */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
 
         /* Language Switcher */
         #lang-switcher {
@@ -316,8 +301,8 @@
         }
 
         .fab {
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Smaller */
+            height: 50px; /* Smaller */
             border-radius: 50%;
             border: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -327,7 +312,7 @@
             justify-content: center;
             transition: transform 0.3s ease;
             padding: 0;
-            overflow: hidden; /* Important for cropping image */
+            overflow: hidden;
         }
         .fab:hover {
             transform: scale(1.1);
@@ -342,13 +327,13 @@
             background-color: white;
         }
         #fun-fact-btn img {
-            width: 35px;
-            height: 35px;
+            width: 28px; /* Smaller icon */
+            height: 28px;
             object-fit: contain;
         }
         
         #facebook-btn, #tiktok-btn {
-            background-color: transparent; /* Remove button background */
+            background-color: transparent;
         }
         
         /* Fact Modal Styles */
@@ -367,10 +352,6 @@
     </style>
 </head>
 <body>
-
-    <a id="logo-container" href="#">
-        <img src="https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/463281658_985726796902620_1641803619335139255_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=fewiPEjOg08Q7kNvwGyhdD8&_nc_oc=AdnPDEJVzOpHlUs5QSqptFw4ZWsNaltulNOFl44ef_xQQFAs4hJ5aD5shumbt9Q-cFd-BLYkZSqvHAhY0ikX-No3&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=aGk6tgUKZeb5grZGm5c8lA&oh=00_AfQbwvxqbzeGTj9EHW6WmRvzFR9JZI7jz0sNhV559YB25Q&oe=6893767D" alt="Stardoi Farm Logo">
-    </a>
 
     <div id="lang-switcher">
         <button class="lang-btn active" data-lang="th">ไทย</button>
