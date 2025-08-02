@@ -122,6 +122,8 @@
         #poi-drawing { top: 30.5%; left: 72%; }
         #poi-restroom { top: 22.5%; left: 41%; } 
         #poi-albino-buffalo { top: 78.5%; left: 18%; }
+        #poi-souvenirs { top: 28%; left: 9.75%; }
+        #poi-snacks { top: 72%; left: 33%; } /* New Snack POI */
 
         /* Modal (Popup) Styling */
         .modal {
@@ -209,18 +211,60 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        #modal-image {
+        #media-container {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        #media-container img {
             width: 100%;
             max-height: 45vh;
             object-fit: contain;
             border-radius: 10px;
-            margin-bottom: 20px;
             animation: image-enter 0.5s ease-out;
             transition: transform 0.4s ease;
         }
 
-        #modal-image:hover {
+        #media-container img:hover {
             transform: scale(1.03);
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
         }
 
         #modal-title {
@@ -273,6 +317,8 @@
         <div class="poi" id="poi-drawing" data-id="drawing"></div>
         <div class="poi" id="poi-restroom" data-id="restroom"></div>
         <div class="poi" id="poi-albino-buffalo" data-id="albino-buffalo"></div>
+        <div class="poi" id="poi-souvenirs" data-id="souvenirs"></div>
+        <div class="poi" id="poi-snacks" data-id="snacks"></div> <!-- New Snack POI -->
     </div>
 
     <div id="infoModal" class="modal">
@@ -284,7 +330,7 @@
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.016 3.234q3.047 0 5.273 2.227t2.227 5.273-2.227 5.273-5.273 2.227v-2.062q2.109 0 3.609-1.5t1.5-3.609-1.5-3.609-3.609-1.5-3.609 1.5-1.5 3.609h-2.062q0-3.047 2.227-5.273t5.273-2.227zM1 9.984v4.031h3.984l5.016 5.016v-14.062l-5.016 5.016h-3.984z"></path></svg>
                 </button>
             </div>
-            <img id="modal-image" src="" alt="รูปภาพประกอบ" onerror="this.onerror=null;this.src='https://placehold.co/600x300/eee/ccc?text=Image+Not+Found';">
+            <div id="media-container"></div>
             <div id="modal-description"></div>
         </div>
     </div>
@@ -307,211 +353,114 @@
 
         const poiData = {
             tickets: {
-                th: {
-                    title: 'จุดขายตั๋ว',
-                    description: `<p>เริ่มต้นการผจญภัยในฟาร์มของเราที่นี่! จุดจำหน่ายตั๋วเป็นประตูสู่ความสนุกสนานและกิจกรรมทั้งหมดที่รอคุณอยู่ภายในฟาร์ม</p><h4>เคล็ดลับ:</h4><p>ตั๋วสำหรับกิจกรรมต่างๆ เช่น การขี่ม้า พายเรือคายัค สามารถซื้อได้ที่จุดขายอาหารแกะ</p>`
-                },
-                en: {
-                    title: 'Ticket Booth',
-                    description: `<p>Start your farm adventure here! The ticket booth is your gateway to all the fun and activities awaiting you inside.</p><h4>Tip:</h4><p>Tickets for activities like horse riding and kayaking can be purchased at the sheep feeding point.</p>`
-                },
-                zh: {
-                    title: '售票处',
-                    description: `<p>从这里开始您的农场探险！售票处是您通往农场内所有乐趣和活动的大门。</p><h4>提示:</h4><p>骑马和皮划艇等活动的门票可以在绵羊饲料销售点购买。</p>`
-                },
+                th: { title: 'จุดขายตั๋ว', description: `<p>เริ่มต้นการผจญภัยในฟาร์มของเราที่นี่! จุดจำหน่ายตั๋วเป็นประตูสู่ความสนุกสนานและกิจกรรมทั้งหมดที่รอคุณอยู่ภายในฟาร์ม</p><h4>เคล็ดลับ:</h4><p>ตั๋วสำหรับกิจกรรมต่างๆ เช่น การขี่ม้า พายเรือคายัค สามารถซื้อได้ที่จุดขายอาหารแกะ</p>` },
+                en: { title: 'Ticket Booth', description: `<p>Start your farm adventure here! The ticket booth is your gateway to all the fun and activities awaiting you inside.</p><h4>Tip:</h4><p>Tickets for activities like horse riding and kayaking can be purchased at the sheep feeding point.</p>` },
+                zh: { title: '售票处', description: `<p>从这里开始您的农场探险！售票处是您通往农场内所有乐趣和活动的大门。</p><h4>提示:</h4><p>骑马和皮划艇等活动的门票可以在绵羊饲料销售点购买。</p>` },
                 image: 'https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/525943679_1149229150566874_7616628224717669747_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=f727a1&_nc_ohc=mw0ZCD8NzMMQ7kNvwGrlDPR&_nc_oc=Adn0VcP4rxSI8v9AbTmvwbMwSqAaEGtAraYxZkXLv-B2Zb_7rj3QhmlrN7iUf7m1zUYRFOa8sbxcrM9b0t78Yd5U&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=qmRRHIa76tNB0TQXp0fb7g&oh=00_AfS6tUZwfPQNWsLpWLUSjuiZptErAHx7ILQ8BFoSzJOjmA&oe=6892BF51'
             },
             photos: {
-                th: {
-                    title: 'จุดขายรูปภาพ / ร้านค้า',
-                    description: `<p>เก็บความทรงจำดีๆ กลับบ้าน! ที่นี่มีช่างภาพมืออาชีพคอยถ่ายภาพของคุณกับบรรยากาศสวยๆ และน้องแกะที่น่ารัก</p><h4>บริการ:</h4><p>มีบริการอัดภาพใส่กรอบ หรือรับเป็นไฟล์ดิจิทัล และยังมีของที่ระลึกอื่นๆ จำหน่าย</p>`
-                },
-                en: {
-                    title: 'Photo Shop / Souvenirs',
-                    description: `<p>Take home your precious memories! Professional photographers are available to capture your moments with the beautiful scenery and lovely sheep.</p><h4>Services:</h4><p>We offer photo printing with frames, digital files, and also sell other souvenirs.</p>`
-                },
-                zh: {
-                    title: '照相馆/纪念品店',
-                    description: `<p>把珍贵的回忆带回家！专业摄影师随时准备为您捕捉与美丽风景和可爱绵羊的精彩瞬间。</p><h4>服务:</h4><p>我们提供带相框的照片打印、数码文件，并出售其他纪念品。</p>`
-                },
+                th: { title: 'จุดขายรูปภาพ / ร้านค้า', description: `<p>เก็บความทรงจำดีๆ กลับบ้าน! ที่นี่มีช่างภาพมืออาชีพคอยถ่ายภาพของคุณกับบรรยากาศสวยๆ และน้องแกะที่น่ารัก</p><h4>บริการ:</h4><p>มีบริการอัดภาพใส่กรอบ หรือรับเป็นไฟล์ดิจิทัล และยังมีของที่ระลึกอื่นๆ จำหน่าย</p>` },
+                en: { title: 'Photo Shop / Souvenirs', description: `<p>Take home your precious memories! Professional photographers are available to capture your moments with the beautiful scenery and lovely sheep.</p><h4>Services:</h4><p>We offer photo printing with frames, digital files, and also sell other souvenirs.</p>` },
+                zh: { title: '照相馆/纪念品店', description: `<p>把珍贵的回忆带回家！专业摄影师随时准备为您捕捉与美丽风景和可爱绵羊的精彩瞬间。</p><h4>服务:</h4><p>我们提供带相框的照片打印、数码文件，并出售其他纪念品。</p>` },
                 image: 'https://www.brandbuffet.in.th/wp-content/uploads/2014/09/NFC-samsung-printer.jpg'
             },
             cafe: {
-                th: {
-                    title: 'จุดให้บริการคาเฟ่',
-                    description: `<p>พักเหนื่อยและเติมพลังที่คาเฟ่บรรยากาศดีของเรา ที่นี่มีบริการเครื่องดื่มหลากหลายชนิด, ไอศกรีม, และเบเกอรี่โฮมเมดแสนอร่อย</p>`
-                },
-                en: {
-                    title: 'Café',
-                    description: `<p>Take a break and recharge at our cozy café. We serve a variety of drinks, ice cream, and delicious homemade bakery items.</p>`
-                },
-                zh: {
-                    title: '咖啡厅',
-                    description: `<p>在我们舒适的咖啡厅里休息一下，补充能量。我们提供各种饮料、冰淇淋和美味的自制烘焙食品。</p>`
-                },
-                image: 'https://lh3.googleusercontent.com/geougc-cs/AB3l90B8H5B7epLLooXY2bbOjtX-JtttGftUAATdA9Lh-xJssEd_S4XM9_frJLmcWNem3QKze0tpDmmVLSo8clGtv1fITY3S37gq1V0L1VFSL_ZAsFP_UDRmf8gt618gZ9CQJUimehnNcg=s3710-w3710-h1986-rw'
+                th: { title: 'จุดให้บริการคาเฟ่', description: `<p>พักเหนื่อยและเติมพลังที่คาเฟ่บรรยากาศดีของเรา นอกจากจะมีเครื่องดื่ม ไอศกรีม และเบเกอรี่โฮมเมดแล้ว ยังมีอาหารแสนอร่อย สดใหม่ทุกวัน ปรุงโดยเชฟฝีมือดีที่การันตีความอร่อย</p>` },
+                en: { title: 'Café', description: `<p>Take a break and recharge at our cozy café. In addition to drinks, ice cream, and homemade bakery, we also serve delicious meals, freshly prepared daily by our skilled chef who guarantees every dish is a delight.</p>` },
+                zh: { title: '咖啡厅', description: `<p>在我们舒适的咖啡厅里休息一下，补充能量。除了饮料、冰淇淋和自制烘焙食品，我们还提供由技艺精湛的厨师每日新鲜烹制的美味佳肴，保证让您满意。</p>` },
+                images: [
+                    'https://lh3.googleusercontent.com/geougc-cs/AB3l90B8H5B7epLLooXY2bbOjtX-JtttGftUAATdA9Lh-xJssEd_S4XM9_frJLmcWNem3QKze0tpDmmVLSo8clGtv1fITY3S37gq1V0L1VFSL_ZAsFP_UDRmf8gt618gZ9CQJUimehnNcg=s3710-w3710-h1986-rw',
+                    'https://scontent.fbkk9-2.fna.fbcdn.net/v/t39.30808-6/526973126_25023268663929134_3334358350018013965_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=In1TvAEpGksQ7kNvwGqIb0j&_nc_oc=Adn2qOb7Q01toaY3d4xpdA1XnYAaDykBKUezJ_sHaoz2HcKGIEqwq-xmINp82KE2FhV3CrGQFs4SMALYGOeXYQGe&_nc_zt=23&_nc_ht=scontent.fbkk9-2.fna&_nc_gid=HGB37Gg3HMG1kyvQMrWWeQ&oh=00_AfTaxR4dyP-2viWxhPO3hEk1rnuKX7w0QnyVQdKqNjtJGg&oe=68933AF8',
+                    'https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/527190458_25023268020595865_2655341475720130892_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=M5KLWAEywskQ7kNvwH0PAv5&_nc_oc=AdlH74lMwAje_4Io_P-lc9_YTKA8xzo1c678qXO1zamt77an-LzToBhq6fzmB_4_NBTTAotv1GSVXPEtYueZcvCY&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=iB1Q5nXKWZxToIYci1w3ug&oh=00_AfRZF9KaYpivDr4jxnVI0_FtE-_KI6DhA4AL1q_DkACDsg&oe=68933F8C',
+                    'https://scontent.fbkk12-4.fna.fbcdn.net/v/t39.30808-6/525329320_25023267987262535_2018757128620301774_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=UIMYchPjLt0Q7kNvwHZiN4P&_nc_oc=AdnlulOMnJGgLwF8Qt-mlZlc7TlyEmr_tIGSxpRX9hwqoEHk51Y4k-kMVAH3-WA3lXcFbm4XSUdxzE8dNIdJSdhk&_nc_zt=23&_nc_ht=scontent.fbkk12-4.fna&_nc_gid=XFmo1yassu07KOgoSzV25g&oh=00_AfS637AGOY3-xXldSZvOiPpnx8lPvfcZDIU7LgfjTuLCRw&oe=68933ED2',
+                    'https://scontent.fbkk8-4.fna.fbcdn.net/v/t39.30808-6/526571923_25023268917262442_5795452900559636086_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=805yiBkN3BwQ7kNvwEscvJs&_nc_oc=AdmCUh85bXrsArMclcKNlTVXWlAe0x79it265lGzELV3plHRnS569PVYlffQvrSQj2KFqC0k1QPo2u-pofu22Tsp&_nc_zt=23&_nc_ht=scontent.fbkk8-4.fna&_nc_gid=axf5kxTNqJs5S3136X0A_g&oh=00_AfRJWIllpTH9mFRw9n8ZXHybmh03YOBMIOtTRUtomq3DVA&oe=6893562A',
+                    'https://scontent.fbkk12-6.fna.fbcdn.net/v/t39.30808-6/526388065_25023268303929170_2056202318119933389_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=CyPHHaBkH9IQ7kNvwFolfEZ&_nc_oc=AdnIcVgMVipXIeDMF62y6NuMIfy72J1k-ideAdI2gOAOHHRKu0voaUk76yXeqe6tOKnxgS8-VIwxti3hnZ5-27RS&_nc_zt=23&_nc_ht=scontent.fbkk12-6.fna&_nc_gid=0bIbdtZTjU70Zh0dWD1hZA&oh=00_AfRubcv-FAKjYapVIuSYoI4uyCEVxK_N2s3vef9lnnQM9Q&oe=68935965',
+                    'https://scontent.fbkk8-4.fna.fbcdn.net/v/t39.30808-6/525348162_25023268347262499_1889547765069550537_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Gp7fFGeRRgsQ7kNvwGZUPa0&_nc_oc=AdlUWNKWfDpK1uROWeykQcjCix0xggJBK_UWp2iFpAR4K3Z49_sRhPxSOpVKBU1mKmVU-coQ8KaTV5WYLgte43Ho&_nc_zt=23&_nc_ht=scontent.fbkk8-4.fna&_nc_gid=RuGei2iMKr9898IhaNxArQ&oh=00_AfRJ2Xw2mjcOsPwJiKuymBENBHGu_35SHfnLA1IHbMOBJg&oe=689348F4',
+                    'https://scontent.fbkk8-4.fna.fbcdn.net/v/t39.30808-6/525339285_25023268943929106_8019564772760495270_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=76-Gr7N8lKgQ7kNvwETlbrM&_nc_oc=AdnxxohsRqTpbvgfd9GEYhd4bIuI0FSLEOP_cQKXqLU3FE0524RDfF1ZVoBA1dxh6wLvIZhAyqr8Xr1J9dXp5F-4&_nc_zt=23&_nc_ht=scontent.fbkk8-4.fna&_nc_gid=kKx_MiDXLfD5rU7ZENbKew&oh=00_AfSShKJCEgI_W-df_ykqdqoT4nxAhxloJElH_HW41GgSJw&oe=689335CC'
+                ]
             },
             horse: {
-                th: {
-                    title: 'จุดขี่ม้า',
-                    description: `<p>สัมผัสประสบการณ์สุดคลาสสิกกับการขี่ม้าชมทิวทัศน์อันงดงามรอบๆ ฟาร์ม โดยมีเจ้าหน้าที่คอยดูแลความปลอดภัยอย่างใกล้ชิด</p><h4>เกร็ดความรู้:</h4><p>ม้าที่นี่แม้จะเป็นม้าท่องเที่ยว แต่ก็มีสายเลือดที่ดีและได้รับการดูแลอย่างดีเยี่ยมเช่นกัน</p>`
-                },
-                en: {
-                    title: 'Horse Riding',
-                    description: `<p>Enjoy a classic experience riding a horse and taking in the beautiful scenery of the farm, with our staff ensuring your safety.</p><h4>Fun Fact:</h4><p>Although our horses are for tourism, they come from good bloodlines and are excellently cared for.</p>`
-                },
-                zh: {
-                    title: '骑马',
-                    description: `<p>享受骑马的经典体验，欣赏农场美丽的风景，我们的工作人员会确保您的安全。</p><h4>小知识:</h4><p>虽然我们的马匹用于旅游，但它们血统优良，并得到了极好的照顾。</p>`
-                },
+                th: { title: 'จุดขี่ม้า', description: `<p>สัมผัสประสบการณ์สุดคลาสสิกกับการขี่ม้าชมทิวทัศน์อันงดงามรอบๆ ฟาร์ม โดยมีเจ้าหน้าที่คอยดูแลความปลอดภัยอย่างใกล้ชิด</p><h4>เกร็ดความรู้:</h4><p>ม้าที่นี่แม้จะเป็นม้าท่องเที่ยว แต่ก็มีสายเลือดที่ดีและได้รับการดูแลอย่างดีเยี่ยมเช่นกัน</p>` },
+                en: { title: 'Horse Riding', description: `<p>Enjoy a classic experience riding a horse and taking in the beautiful scenery of the farm, with our staff ensuring your safety.</p><h4>Fun Fact:</h4><p>Although our horses are for tourism, they come from good bloodlines and are excellently cared for.</p>` },
+                zh: { title: '骑马', description: `<p>享受骑马的经典体验，欣赏农场美丽的风景，我们的工作人员会确保您的安全。</p><h4>小知识:</h4><p>虽然我们的马匹用于旅游，但它们血统优良，并得到了极好的照顾。</p>` },
                 image: 'https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/493978390_1142718384536793_9140379534318144009_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=zPATqMjdzTYQ7kNvwHkbGwb&_nc_oc=Adn6-FqFTJ6NbmdTbAden-i9MU-GzarriJbNenj7XX-hzSg13-bAPrFgiYRXf8CorgnbB0cxDb6atc0K0QlTJFjs&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=8svXTy-_CKhAkAGIEglz-g&oh=00_AfQAXhT-FyeBuDQLHnIf1I9NlkRIiL22iRsszrTAZBMK_Q&oe=689296F8'
             },
             kayak: {
-                th: {
-                    title: 'จุดพายเรือคายัค',
-                    description: `<p>เปลี่ยนบรรยากาศมาทำกิจกรรมทางน้ำกับการพายเรือคายัคในน้ำผุดธรรมชาติของฟาร์ม เป็นกิจกรรมที่สนุกสนานสำหรับทุกคนในครอบครัว</p>`
-                },
-                en: {
-                    title: 'Kayaking',
-                    description: `<p>Switch things up with a water activity! Enjoy kayaking in the farm's natural spring. A fun activity for the whole family.</p>`
-                },
-                zh: {
-                    title: '皮划艇',
-                    description: `<p>换个花样，来参加水上活动吧！在农场的天然泉水中享受皮划艇的乐趣。这是一项适合全家人的有趣活动。</p>`
-                },
+                th: { title: 'จุดพายเรือคายัค', description: `<p>เปลี่ยนบรรยากาศมาทำกิจกรรมทางน้ำกับการพายเรือคายัคในน้ำผุดธรรมชาติของฟาร์ม เป็นกิจกรรมที่สนุกสนานสำหรับทุกคนในครอบครัว</p>` },
+                en: { title: 'Kayaking', description: `<p>Switch things up with a water activity! Enjoy kayaking in the farm's natural spring. A fun activity for the whole family.</p>` },
+                zh: { title: '皮划艇', description: `<p>换个花样，来参加水上活动吧！在农场的天然泉水中享受皮划艇的乐趣。这是一项适合全家人的有趣活动。</p>` },
                 image: 'https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/526611188_25019737277615606_8886532318153230456_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MIsyyU-0dNMQ7kNvwEaMieI&_nc_oc=AdkVJtBn9VYsPVPR-XzYYOG4uj-BownEYbn_oEdj7ecr_t8HMB6ZXEsCcXWYhzyzd2vRi2h4wbwjXWZbStdfKGmQ&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=GYst7HCLbiu4G3ImzXp32w&oh=00_AfQK58oEyVueNv436oFpVbZ75At4s18AaTEh7NDZ3v-yfQ&oe=6892946C'
             },
             'sheep-feed': {
-                th: {
-                    title: 'จุดให้อาหารแกะ',
-                    description: `<p>ไฮไลท์ของฟาร์ม! มาใกล้ชิดกับฝูงแกะคอร์ริเดลแสนน่ารักและป้อนอาหารให้พวกมันด้วยมือของคุณเอง</p><h4>เกร็ดความรู้:</h4><p>แกะพันธุ์คอร์ริเดลมีชื่อเสียงจากการให้ทั้งขนคุณภาพดีและเนื้อรสเลิศ</p>`
-                },
-                en: {
-                    title: 'Sheep Feeding',
-                    description: `<p>The farm's highlight! Get up close with our lovely Corriedale sheep and feed them by hand.</p><h4>Fun Fact:</h4><p>Corriedale sheep are famous for providing both high-quality wool and delicious meat.</p>`
-                },
-                zh: {
-                    title: '绵羊喂食',
-                    description: `<p>农场的亮点！近距离接触我们可爱的科里代尔绵羊，并亲手喂养它们。</p><h4>小知识:</h4><p>科里代尔绵羊以其优质的羊毛和美味的肉而闻名。</p>`
-                },
+                th: { title: 'จุดให้อาหารแกะ', description: `<p>ไฮไลท์ของฟาร์ม! มาใกล้ชิดกับฝูงแกะคอร์ริเดลแสนน่ารักและป้อนอาหารให้พวกมันด้วยมือของคุณเอง</p><h4>เกร็ดความรู้:</h4><p>แกะพันธุ์คอร์ริเดลมีชื่อเสียงจากการให้ทั้งขนคุณภาพดีและเนื้อรสเลิศ</p>` },
+                en: { title: 'Sheep Feeding', description: `<p>The farm's highlight! Get up close with our lovely Corriedale sheep and feed them by hand.</p><h4>Fun Fact:</h4><p>Corriedale sheep are famous for providing both high-quality wool and delicious meat.</p>` },
+                zh: { title: '绵羊喂食', description: `<p>农场的亮点！近距离接触我们可爱的科里代尔绵羊，并亲手喂养它们。</p><h4>小知识:</h4><p>科里代尔绵羊以其优质的羊毛和美味的肉而闻名。</p>` },
                 image: 'https://scontent.fbkk9-2.fna.fbcdn.net/v/t39.30808-6/491421364_1134050348736930_2314510554683255807_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HkAJ0OHWOR4Q7kNvwEIlS6D&_nc_oc=AdkJawNJuD_zlYgXumhttFE23MoUP6RZ4LLM55HLmWwEGtl6tLATRBqGe40tVHfzxOeY_tOte7rY1Y4R_3mCnPWD&_nc_zt=23&_nc_ht=scontent.fbkk9-2.fna&_nc_gid=wdOeB54VqlwX1hs0nz9Z6g&oh=00_AfTRTkNOLfj7YmQiQZFiZJh7MgRJFV2CW9FIhP2ZqXoBMA&oe=68929DEC'
             },
             'lamb-feed': {
-                th: {
-                    title: 'จุดขายอาหารแกะและนมแกะ',
-                    description: `<p>จำหน่ายหญ้าและอาหารสำหรับน้องแกะ และขวดนมสำหรับป้อนลูกแกะแสนน่ารัก นอกจากนี้สามารถซื้อตั๋วขี่ม้า, พายเรือ และยืมอุปกรณ์สำหรับทำกิจกรรมได้ที่จุดนี้เลยครับ</p>`
-                },
-                en: {
-                    title: 'Feed & Milk Shop',
-                    description: `<p>Here you can buy grass and feed for the sheep, and milk bottles for the adorable lambs. You can also purchase tickets for horse riding, kayaking, and borrow equipment here.</p>`
-                },
-                zh: {
-                    title: '饲料和牛奶销售点',
-                    description: `<p>在这里您可以购买喂羊的草和饲料，以及喂可爱小羊的奶瓶。您还可以在此购买骑马、皮划艇的门票并租借设备。</p>`
-                },
+                th: { title: 'จุดขายอาหารแกะและนมแกะ', description: `<p>จำหน่ายหญ้าและอาหารสำหรับน้องแกะ และขวดนมสำหรับป้อนลูกแกะแสนน่ารัก นอกจากนี้สามารถซื้อตั๋วขี่ม้า, พายเรือ และยืมอุปกรณ์สำหรับทำกิจกรรมได้ที่จุดนี้เลยครับ</p>` },
+                en: { title: 'Feed & Milk Shop', description: `<p>Here you can buy grass and feed for the sheep, and milk bottles for the adorable lambs. You can also purchase tickets for horse riding, kayaking, and borrow equipment here.</p>` },
+                zh: { title: '饲料和牛奶销售点', description: `<p>在这里您可以购买喂羊的草和饲料，以及喂可爱小羊的奶瓶。您还可以在此购买骑马、皮划艇的门票并租借设备。</p>` },
                 image: 'https://scontent.fbkk12-6.fna.fbcdn.net/v/t39.30808-6/526683161_800859345597786_6743849956517527767_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_ohc=vUavB78sTLMQ7kNvwHoC15Z&_nc_oc=AdktFo3lnDXIm5_EF3NX7HZMHcoCOrOdPut2nS3rv6u29T3noKRPF5MpWtmSlM2xjKrBw7uu_L1Z17C8evgDZzG9&_nc_zt=23&_nc_ht=scontent.fbkk12-6.fna&_nc_gid=Q0f2Ur0Ut2acS4G0vp4Q2g&oh=00_AfT4Fh7kIyUAgV6UJVb7HPyb7XblHtez2sK5dSVvZkf-3w&oe=6892C6C7'
             },
             duck: {
-                th: {
-                    title: 'จุดเลี้ยงเป็ดปักกิ่ง',
-                    description: `<p>ชมความน่ารักของฝูงเป็ดปักกิ่งสีขาวสะอาดตาที่กำลังเล่นน้ำและใช้ชีวิตอย่างมีความสุขในพื้นที่ของพวกมัน</p>`
-                },
-                en: {
-                    title: 'Pekin Ducks Area',
-                    description: `<p>Watch the adorable flock of white Pekin ducks as they play in the water and enjoy their day.</p>`
-                },
-                zh: {
-                    title: '北京鸭区',
-                    description: `<p>观看可爱的白色北京鸭群在水中嬉戏，享受它们的一天。</p>`
-                },
+                th: { title: 'จุดเลี้ยงเป็ดปักกิ่ง', description: `<p>ชมความน่ารักของฝูงเป็ดปักกิ่งสีขาวสะอาดตาที่กำลังเล่นน้ำและใช้ชีวิตอย่างมีความสุขในพื้นที่ของพวกมัน</p>` },
+                en: { title: 'Pekin Ducks Area', description: `<p>Watch the adorable flock of white Pekin ducks as they play in the water and enjoy their day.</p>` },
+                zh: { title: '北京鸭区', description: `<p>观看可爱的白色北京鸭群在水中嬉戏，享受它们的一天。</p>` },
                 image: 'https://scontent.fbkk12-3.fna.fbcdn.net/v/t39.30808-6/526264783_25019728230949844_3220160052924626534_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=slMQkuvcZVAQ7kNvwF15ABO&_nc_oc=AdnrpSQ5BWCW9hPEFyHLhL0OuivBY0CyaISXkYvf8lnYp18mgjneMIDjXdo-8E53RvIiXFBwJ2a18CpLXxjmxHBc&_nc_zt=23&_nc_ht=scontent.fbkk12-3.fna&_nc_gid=SRwIPnXjmAK6vho6kzcf-w&oh=00_AfSOOpMHYFLNfKK1m6xHMkYs7rFDH3GmR5AMb3U-kOHAZw&oe=689290F4 '
             },
             peafowl: {
-                th: {
-                    title: 'จุดเลี้ยงนกยูงอินเดีย',
-                    description: `<p>ตื่นตาตื่นใจไปกับความสง่างามของนกยูงอินเดีย ที่กำลังรำแพนหางอวดลวดลาย "แววมยุรา" อันงดงามตระการตา</p>`
-                },
-                en: {
-                    title: 'Indian Peafowl Area',
-                    description: `<p>Be amazed by the elegance of the Indian peafowl, displaying its stunningly beautiful tail feathers.</p>`
-                },
-                zh: {
-                    title: '印度孔雀区',
-                    description: `<p>惊叹于印度孔雀的优雅，它们展示着令人惊叹的美丽尾羽。</p>`
-                },
+                th: { title: 'จุดเลี้ยงนกยูงอินเดีย', description: `<p>ตื่นตาตื่นใจไปกับความสง่างามของนกยูงอินเดีย ที่กำลังรำแพนหางอวดลวดลาย "แววมยุรา" อันงดงามตระการตา</p>` },
+                en: { title: 'Indian Peafowl Area', description: `<p>Be amazed by the elegance of the Indian peafowl, displaying its stunningly beautiful tail feathers.</p>` },
+                zh: { title: '印度孔雀区', description: `<p>惊叹于印度孔雀的优雅，它们展示着令人惊叹的美丽尾羽。</p>` },
                 image: 'https://www.khawphayao.com/wp-content/uploads/2023/07/1-1-2.png'
             },
             rabbit: {
-                th: {
-                    title: 'จุดให้อาหารกระต่าย',
-                    description: `<p>มุมโปรดของเด็กๆ ที่จะได้พบปะกับฝูงกระต่ายหลากหลายสายพันธุ์ที่น่ารักและเป็นมิตร</p>`
-                },
-                en: {
-                    title: 'Rabbit Feeding',
-                    description: `<p>A favorite spot for children, where they can meet and interact with various friendly rabbit breeds.</p>`
-                },
-                zh: {
-                    title: '兔子喂食',
-                    description: `<p>孩子们最喜欢的地方，他们可以在这里遇见并与各种友好的兔子品种互动。</p>`
-                },
+                th: { title: 'จุดให้อาหารกระต่าย', description: `<p>มุมโปรดของเด็กๆ ที่จะได้พบปะกับฝูงกระต่ายหลากหลายสายพันธุ์ที่น่ารักและเป็นมิตร</p>` },
+                en: { title: 'Rabbit Feeding', description: `<p>A favorite spot for children, where they can meet and interact with various friendly rabbit breeds.</p>` },
+                zh: { title: '兔子喂食', description: `<p>孩子们最喜欢的地方，他们可以在这里遇见并与各种友好的兔子品种互动。</p>` },
                 image: 'https://scontent.fbkk13-2.fna.fbcdn.net/v/t39.30808-6/527102229_25019721290950538_6754808944388152002_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=euUxckAxfdsQ7kNvwEhWUQj&_nc_oc=AdnIYSLdwSN3JoktK0CLM6b_RRREhTpeqWKp0PqPR_MQUlbR73l06NJtdbK-PTQwKpJZOgxW3gyOl8hr-rckwIRp&_nc_zt=23&_nc_ht=scontent.fbkk13-2.fna&_nc_gid=ZSiUBNwvtWZ179VVAbNWFQ&oh=00_AfQYEs-Gr5tqDpJCr54RjPAJbN0TVn6488Idba4gKOW9wA&oe=6892B3D3'
             },
             drawing: {
-                th: {
-                    title: 'จุดวาดภาพระบายสี',
-                    description: `<p>ปลดปล่อยจินตนาการและความคิดสร้างสรรค์ที่มุมศิลปะของเรา ที่นี่มีอุปกรณ์ให้คุณได้สร้างสรรค์ผลงานและนำกลับไปเป็นของที่ระลึก</p>`
-                },
-                en: {
-                    title: 'Painting Corner',
-                    description: `<p>Unleash your imagination and creativity at our art corner. We provide all the materials for you to create your own masterpiece to take home as a souvenir.</p>`
-                },
-                zh: {
-                    title: '绘画角',
-                    description: `<p>在我们的艺术角释放您的想象力和创造力。我们提供所有材料，让您创作自己的杰作并带回家作为纪念品。</p>`
-                },
+                th: { title: 'จุดวาดภาพระบายสี', description: `<p>ปลดปล่อยจินตนาการและความคิดสร้างสรรค์ที่มุมศิลปะของเรา ที่นี่มีอุปกรณ์ให้คุณได้สร้างสรรค์ผลงานและนำกลับไปเป็นของที่ระลึก</p>` },
+                en: { title: 'Painting Corner', description: `<p>Unleash your imagination and creativity at our art corner. We provide all the materials for you to create your own masterpiece to take home as a souvenir.</p>` },
+                zh: { title: '绘画角', description: `<p>在我们的艺术角释放您的想象力和创造力。我们提供所有材料，让您创作自己的杰作并带回家作为纪念品。</p>` },
                 image: 'https://static.cdntap.com/tap-assets-prod/wp-content/uploads/sites/25/2020/04/%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%AA%E0%B8%B52.jpg?width=700&quality=95'
             },
             restroom: {
-                th: {
-                    title: 'ห้องน้ำ',
-                    description: `<p>ห้องน้ำสะอาดพร้อมให้บริการแก่ทุกท่าน ตั้งอยู่บริเวณใกล้คาเฟ่ เพื่อความสะดวกสบายของนักท่องเที่ยว</p>`
-                },
-                en: {
-                    title: 'Restrooms',
-                    description: `<p>Clean restrooms are available for everyone, located near the café for your convenience.</p>`
-                },
-                zh: {
-                    title: '洗手间',
-                    description: `<p>为方便游客，干净的洗手间位于咖啡厅附近，供大家使用。</p>`
-                },
+                th: { title: 'ห้องน้ำ', description: `<p>ห้องน้ำสะอาดพร้อมให้บริการแก่ทุกท่าน ตั้งอยู่บริเวณใกล้คาเฟ่ เพื่อความสะดวกสบายของนักท่องเที่ยว</p>` },
+                en: { title: 'Restrooms', description: `<p>Clean restrooms are available for everyone, located near the café for your convenience.</p>` },
+                zh: { title: '洗手间', description: `<p>为方便游客，干净的洗手间位于咖啡厅附近，供大家使用。</p>` },
                 image: 'https://files.ekmcdn.com/signmaker/images/airport-marine-terminal-sign-toilets-symbol-2408--49580-p.png?v=2C868E41-C689-4533-B912-68304DD1A5FA'
             },
             'albino-buffalo': {
-                th: {
-                    title: 'จุดให้อาหารควายเผือก',
-                    description: `<p>พบกับ 'พี่บัวขาว' ควายเผือกแสนเชื่อง สัตว์มงคลหาชมได้ยาก คุณสามารถป้อนหญ้าและถ่ายรูปกับพี่บัวขาวได้อย่างใกล้ชิด</p><h4>เกร็ดความรู้:</h4><p>ควายเผือกเกิดจากภาวะผิวเผือกที่เกิดจากยีนด้อย ในสมัยโบราณถือเป็นสัตว์มงคล</p>`
-                },
-                en: {
-                    title: 'Albino Buffalo Feeding',
-                    description: `<p>Meet 'P'Buakaw,' our gentle albino buffalo, a rare and auspicious animal. You can feed him grass and take photos up close.</p><h4>Fun Fact:</h4><p>Albino buffaloes result from a recessive gene causing albinism and were considered auspicious in ancient times.</p>`
-                },
-                zh: {
-                    title: '白化水牛喂食',
-                    description: `<p>来见见我们温顺的白化水牛“P'Buakaw”，这是一种罕见而吉祥的动物。您可以近距离喂它草并与它合影。</p><h4>小知识:</h4><p>白化水牛是由隐性基因引起的白化病造成的，在古代被认为是吉祥的动物。</p>`
-                },
+                th: { title: 'จุดให้อาหารควายเผือก', description: `<p>พบกับ 'พี่บัวขาว' ควายเผือกแสนเชื่อง สัตว์มงคลหาชมได้ยาก คุณสามารถป้อนหญ้าและถ่ายรูปกับพี่บัวขาวได้อย่างใกล้ชิด</p><h4>เกร็ดความรู้:</h4><p>ควายเผือกเกิดจากภาวะผิวเผือกที่เกิดจากยีนด้อย ในสมัยโบราณถือเป็นสัตว์มงคล</p>` },
+                en: { title: 'Albino Buffalo Feeding', description: `<p>Meet 'P'Buakaw,' our gentle albino buffalo, a rare and auspicious animal. You can feed him grass and take photos up close.</p><h4>Fun Fact:</h4><p>Albino buffaloes result from a recessive gene causing albinism and were considered auspicious in ancient times.</p>` },
+                zh: { title: '白化水牛喂食', description: `<p>来见见我们温顺的白化水牛“P'Buakaw”，这是一种罕见而吉祥的动物。您可以近距离喂它草并与它合影。</p><h4>小知识:</h4><p>白化水牛是由隐性基因引起的白化病造成的，在古代被认为是吉祥的动物。</p>` },
                 image: 'https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/526809571_25019974090925258_4145043769728070411_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=z0_D0ecz_pkQ7kNvwHyjUio&_nc_oc=Adnw01hfpobpq5ukNDzj-7oiBzqogazxqwTnkVGmXkaEdzoXAUmMHQL2Erxak6M5N3dMJHgqv36-y9MTFBv6iUnm&_nc_zt=23&_nc_ht=scontent.fbkk12-1.fna&_nc_gid=JqFo-Hcker4xi8EH3rgwuw&oh=00_AfTKHpbvWjsArj5AyGatNJDCfYx5tDnX0pFpuNu_axuxkQ&oe=6892B5D7'
+            },
+            souvenirs: {
+                th: { title: 'จุดจำหน่ายของที่ละลึกจากขนแกะและผลิตภัณฑ์จากแกะคอร์ริเดล', description: `<p>เลือกซื้อผลิตภัณฑ์จากแกะคอร์ริเดล และตุ๊กตาขนแกะนุ่มฟู ของฝากสุดพิเศษจากฟาร์มของเรา</p>` },
+                en: { title: 'Corriedale Sheep Products & Souvenirs', description: `<p>Shop for products from Corriedale sheep and fluffy wool dolls, special souvenirs from our farm.</p>` },
+                zh: { title: '科里代尔羊毛产品及纪念品', description: `<p>选购科里代尔羊产品和柔软的羊毛娃娃，作为我们农场的特别纪念品。</p>` },
+                image: 'https://scontent.fbkk8-4.fna.fbcdn.net/v/t39.30808-6/525335173_25023446300578037_2339731015520547732_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=79PIXQ3ls4IQ7kNvwEng6s_&_nc_oc=Adn064FxvMF5GSdN_L5XdvMdqSU1MabWMluzXdhjayk5KXgDu2pKeUKVt2dM2ppDYN_9PerI686vsJdgIdYF62pg&_nc_zt=23&_nc_ht=scontent.fbkk8-4.fna&_nc_gid=tuJvMstOyLai9ImKovrdCg&oh=00_AfT9udRwgfda6fZkPxNfwn3g3LhGYThPh1nTqxIR6-7GDg&oe=68934850'
+            },
+            snacks: { // <-- NEW SNACK POI
+                th: { title: 'จุดขายผลไม้และขนมขบเคี้ยว', description: `<p>แวะเติมความสดชื่นด้วยผลไม้ตามฤดูกาล และเลือกซื้อขนมขบเคี้ยวหลากหลายชนิดสำหรับทานเล่นระหว่างเที่ยวชมฟาร์ม</p>` },
+                en: { title: 'Fruit & Snack Stall', description: `<p>Stop by for some refreshing seasonal fruits and choose from a variety of snacks to enjoy while exploring the farm.</p>` },
+                zh: { title: '水果与零食摊', description: `<p>停下来品尝清爽的时令水果，并选择各种零食，在游览农场时享用。</p>` },
+                image: 'https://lh3.googleusercontent.com/geougc-cs/AB3l90C99q2aPEl9XCgZlWfhcYkvC7d2P_I-jhXAMXuDSW73DOYDRd875MC_9cgrnc-Tl9gkCXtSbbzL6EPi5bLRVRNeLMKsanGzFDIaDb5UUcMhhrUm2jVTzyQuSzcHjsEt5xg8GMmUC1lD6L2U=s3710-w3710-h1986-rw'
             }
         };
 
         // Get Modal elements
         const modal = document.getElementById('infoModal');
         const modalTitle = document.getElementById('modal-title');
-        const modalImage = document.getElementById('modal-image');
+        const mediaContainer = document.getElementById('media-container'); 
         const modalDescription = document.getElementById('modal-description');
         const closeButton = document.querySelector('.close-button');
         const speakButton = document.getElementById('speak-btn');
         
-        // --- UPDATED: Text-to-Speech Voice Loading ---
         let voices = [];
         function populateVoiceList() {
             voices = speechSynthesis.getVoices();
@@ -521,9 +470,8 @@
             speechSynthesis.onvoiceschanged = populateVoiceList;
         }
 
-        // Function to switch language
         function switchLanguage(lang) {
-            speechSynthesis.cancel(); // Stop any speech when changing language
+            speechSynthesis.cancel();
             currentLang = lang;
             document.documentElement.lang = lang;
 
@@ -546,7 +494,23 @@
             });
         }
 
-        // Add click event to all POIs
+        let slideIndex = 1;
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slide");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex-1].style.display = "block";
+        }
+
         document.querySelectorAll('.poi').forEach(poi => {
             poi.addEventListener('click', () => {
                 const poiId = poi.dataset.id;
@@ -554,23 +518,40 @@
 
                 if (data && data[currentLang]) {
                     modalTitle.textContent = data[currentLang].title;
-                    modalImage.src = data.image;
-                    modalImage.alt = data[currentLang].title;
                     modalDescription.innerHTML = data[currentLang].description;
+                    
+                    mediaContainer.innerHTML = ''; 
+                    if (data.images && Array.isArray(data.images)) {
+                        const slideshowHTML = `
+                            <div class="slideshow-container">
+                                ${data.images.map((imgSrc, index) => `
+                                    <div class="slide ${index === 0 ? 'active' : ''}">
+                                        <img src="${imgSrc}" alt="Image ${index + 1}">
+                                    </div>
+                                `).join('')}
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                            </div>
+                        `;
+                        mediaContainer.innerHTML = slideshowHTML;
+                        slideIndex = 1;
+                        showSlides(slideIndex);
+                    } else if (data.image) {
+                        const singleImageHTML = `<img src="${data.image}" alt="${data[currentLang].title}">`;
+                        mediaContainer.innerHTML = singleImageHTML;
+                    }
                     
                     modal.style.display = 'flex';
                 }
             });
         });
 
-        // Add click event to language buttons
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 switchLanguage(btn.dataset.lang);
             });
         });
 
-        // --- UPDATED: Text-to-Speech Functionality ---
         speakButton.addEventListener('click', () => {
             if (speechSynthesis.speaking) {
                 speechSynthesis.cancel();
@@ -590,16 +571,14 @@
             };
             utterance.lang = langMap[currentLang];
 
-            // --- UPDATED: Voice Selection Logic ---
             const femaleVoice = voices.find(voice => 
-                voice.lang.startsWith(utterance.lang.substring(0, 2)) && // Match base language (e.g., 'zh')
+                voice.lang.startsWith(utterance.lang.substring(0, 2)) &&
                 (voice.name.includes('Female') || voice.name.includes('Kanya') || voice.gender === 'female' || voice.name.includes('女') || voice.name.includes('Ting-Ting'))
             );
 
             if (femaleVoice) {
                 utterance.voice = femaleVoice;
             }
-            // If no specific female voice is found, the browser will use its default for the language.
 
             speechSynthesis.speak(utterance);
         });
@@ -621,7 +600,6 @@
             }
         });
 
-        // Set initial language on page load
         switchLanguage(currentLang);
 
     </script>
