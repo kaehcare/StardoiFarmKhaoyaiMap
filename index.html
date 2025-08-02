@@ -301,8 +301,8 @@
         }
 
         .fab {
-            width: 50px;
-            height: 50px;
+            width: 50px; /* Smaller */
+            height: 50px; /* Smaller */
             border-radius: 50%;
             border: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -327,83 +327,13 @@
             background-color: white;
         }
         #fun-fact-btn img {
-            width: 28px;
+            width: 28px; /* Smaller icon */
             height: 28px;
             object-fit: contain;
         }
         
         #facebook-btn, #tiktok-btn {
             background-color: transparent;
-        }
-
-        /* --- NEW AI Planner Styles --- */
-        #planner-btn {
-            background-color: #673AB7; /* Deep Purple */
-        }
-        #planner-btn svg {
-            width: 28px;
-            height: 28px;
-            fill: white;
-        }
-
-        #planner-modal .modal-content {
-            max-height: 95vh;
-        }
-
-        .planner-form-group {
-            margin-bottom: 20px;
-        }
-        .planner-form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        .planner-form-group select, .planner-form-group .checkbox-group {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 1em;
-            font-family: 'Kanit', sans-serif;
-        }
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            border: none;
-            padding: 0;
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-        }
-        .checkbox-item input {
-            margin-right: 8px;
-        }
-        #generate-plan-btn {
-            width: 100%;
-            padding: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #generate-plan-btn:hover {
-            background-color: #45a049;
-        }
-        #plan-result {
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid #eee;
-            white-space: pre-wrap; /* Preserve line breaks from AI */
-            line-height: 1.6;
         }
         
         /* Fact Modal Styles */
@@ -453,9 +383,6 @@
     </div>
 
     <div id="fab-container">
-        <button id="planner-btn" class="fab" title="AI Planner">
-            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        </button>
         <a id="tiktok-btn" class="fab" href="https://www.tiktok.com/@somkidstardoi" target="_blank" title="TikTok">
             <img src="https://i.pinimg.com/736x/0b/db/be/0bdbbef30f3d9833eb35f3befadd4b27.jpg" alt="TikTok">
         </a>
@@ -489,41 +416,6 @@
         </div>
     </div>
 
-    <div id="planner-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2 data-translate-key="planner_title">AI Planner</h2>
-            <div class="planner-form-group">
-                <label for="companion" data-translate-key="planner_companion_label">คุณมาเที่ยวกับใคร?</label>
-                <select id="companion">
-                    <option value="family" data-translate-key="planner_companion_family">ครอบครัว</option>
-                    <option value="couple" data-translate-key="planner_companion_couple">คู่รัก</option>
-                    <option value="friends" data-translate-key="planner_companion_friends">เพื่อน</option>
-                    <option value="solo" data-translate-key="planner_companion_solo">คนเดียว</option>
-                </select>
-            </div>
-            <div class="planner-form-group">
-                <label for="duration" data-translate-key="planner_duration_label">คุณมีเวลาเที่ยวนานเท่าไหร่?</label>
-                <select id="duration">
-                    <option value="1-hour" data-translate-key="planner_duration_1h">1 ชั่วโมง</option>
-                    <option value="2-hours" data-translate-key="planner_duration_2h">2 ชั่วโมง</option>
-                    <option value="half-day" data-translate-key="planner_duration_halfday">ครึ่งวัน (3-4 ชั่วโมง)</option>
-                </select>
-            </div>
-            <div class="planner-form-group">
-                <label data-translate-key="planner_interest_label">สนใจกิจกรรมแนวไหนเป็นพิเศษ?</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item"><input type="checkbox" id="interest-animals" value="animals"><label for="interest-animals" data-translate-key="planner_interest_animals">ดูสัตว์</label></div>
-                    <div class="checkbox-item"><input type="checkbox" id="interest-activities" value="activities"><label for="interest-activities" data-translate-key="planner_interest_activities">กิจกรรมสนุกๆ</label></div>
-                    <div class="checkbox-item"><input type="checkbox" id="interest-photo" value="photo"><label for="interest-photo" data-translate-key="planner_interest_photo">ถ่ายรูปสวยๆ</label></div>
-                    <div class="checkbox-item"><input type="checkbox" id="interest-relax" value="relax"><label for="interest-relax" data-translate-key="planner_interest_relax">พักผ่อน</label></div>
-                </div>
-            </div>
-            <button id="generate-plan-btn" data-translate-key="planner_button">สร้างแผนการเที่ยว</button>
-            <div id="plan-result"></div>
-        </div>
-    </div>
-
     <script>
         let currentLang = 'th'; // Default language
 
@@ -552,62 +444,6 @@
                 th: 'TikTok',
                 en: 'TikTok',
                 zh: '抖音'
-            },
-            chatbot_title: {
-                th: 'สอบถาม AI Assistant',
-                en: 'Ask AI Assistant',
-                zh: '询问AI助手'
-            },
-            chatbot_welcome: {
-                th: 'สวัสดี! มีอะไรให้ช่วยไหม?',
-                en: 'Hello! How can I help you?',
-                zh: '你好！有什么可以帮您？'
-            },
-            chatbot_placeholder: {
-                th: 'พิมพ์คำถามของคุณ...',
-                en: 'Type your question...',
-                zh: '输入您的问题...'
-            },
-            planner_title: {
-                th: 'AI Planner',
-                en: 'AI Planner',
-                zh: 'AI 策划师'
-            },
-            planner_companion_label: {
-                th: 'คุณมาเที่ยวกับใคร?',
-                en: 'Who are you visiting with?',
-                zh: '您和谁一起来？'
-            },
-            planner_companion_family: { th: 'ครอบครัว', en: 'Family', zh: '家庭' },
-            planner_companion_couple: { th: 'คู่รัก', en: 'Couple', zh: '情侣' },
-            planner_companion_friends: { th: 'เพื่อน', en: 'Friends', zh: '朋友' },
-            planner_companion_solo: { th: 'คนเดียว', en: 'Solo', zh: '独自一人' },
-            planner_duration_label: {
-                th: 'คุณมีเวลาเที่ยวนานเท่าไหร่?',
-                en: 'How much time do you have?',
-                zh: '您有多少时间？'
-            },
-            planner_duration_1h: { th: '1 ชั่วโมง', en: '1 Hour', zh: '1小时' },
-            planner_duration_2h: { th: '2 ชั่วโมง', en: '2 Hours', zh: '2小时' },
-            planner_duration_halfday: { th: 'ครึ่งวัน (3-4 ชั่วโมง)', en: 'Half Day (3-4 Hours)', zh: '半天 (3-4小时)' },
-            planner_interest_label: {
-                th: 'สนใจกิจกรรมแนวไหนเป็นพิเศษ?',
-                en: 'What are your interests?',
-                zh: '您对什么感兴趣？'
-            },
-            planner_interest_animals: { th: 'ดูสัตว์', en: 'Animal Watching', zh: '观赏动物' },
-            planner_interest_activities: { th: 'กิจกรรมสนุกๆ', en: 'Fun Activities', zh: '有趣的活动' },
-            planner_interest_photo: { th: 'ถ่ายรูปสวยๆ', en: 'Photography', zh: '拍照' },
-            planner_interest_relax: { th: 'พักผ่อน', en: 'Relaxing', zh: '放松' },
-            planner_button: {
-                th: 'สร้างแผนการเที่ยว',
-                en: 'Generate Plan',
-                zh: '生成计划'
-            },
-            planner_loading: {
-                th: 'กำลังวางแผนให้คุณ...',
-                en: 'Planning your trip...',
-                zh: '正在为您规划...'
             }
         };
 
