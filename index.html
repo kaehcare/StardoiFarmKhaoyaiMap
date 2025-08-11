@@ -117,6 +117,21 @@
             100% { transform: translate(-50%, -50%) scale(0.9); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
         }
         
+        
+        /* Android/Chrome friendly touch behaviors */
+        .poi {
+            touch-action: manipulation; /* prefer quick tap handling */
+            -webkit-tap-highlight-color: transparent; /* remove default tap highlight */
+            z-index: 9999; /* ensure POIs are on top of the image */
+        }
+        #map-image {
+            -webkit-user-drag: none;
+            user-drag: none;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none; /* allow POIs to receive taps reliably on top of the image */
+        }
+
         /* POI Positions */
         #poi-tickets { top: 88%; left: 7%; }
         #poi-photos { top: 78%; left: 30%; }
@@ -676,17 +691,20 @@
                     }
                     
                     modal.style.display = 'flex';
+                    document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'hidden');
                 }
             };
             poi.addEventListener('click', openModal);
+            poi.addEventListener('touchstart', openModal, {passive: false});
         });
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             const switchLangHandler = (event) => {
-                event.preventDefault();
                 switchLanguage(btn.dataset.lang);
             };
             btn.addEventListener('click', switchLangHandler);
+            // accessibility with keyboard
+            btn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchLangHandler(e); } });
         });
 
         speakButton.addEventListener('click', () => {
@@ -734,6 +752,7 @@
         function closeModal(modalElement) {
             speechSynthesis.cancel(); 
             modalElement.style.display = 'none';
+            document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'visible');
         }
 
         // Close logic for main modal
