@@ -678,8 +678,8 @@
                     modal.style.display = 'flex';
                 }
             };
-            poi.addEventListener('click', openModal);
-            poi.addEventListener('touchstart', openModal, {passive: false});
+            poi.addEventListener('pointerup', openModal);
+
         });
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -687,8 +687,8 @@
                 event.preventDefault();
                 switchLanguage(btn.dataset.lang);
             };
-            btn.addEventListener('click', switchLangHandler);
-            btn.addEventListener('touchstart', switchLangHandler, {passive: false});
+            btn.addEventListener('pointerup', switchLangHandler);
+
         });
 
         speakButton.addEventListener('click', () => {
