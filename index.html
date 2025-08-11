@@ -646,7 +646,6 @@
 
         document.querySelectorAll('.poi').forEach(poi => {
             const openModal = (event) => {
-                event.preventDefault();
                 const poiId = poi.dataset.id;
                 const data = poiData[poiId];
 
@@ -679,7 +678,6 @@
                 }
             };
             poi.addEventListener('pointerup', openModal);
-
         });
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -688,7 +686,6 @@
                 switchLanguage(btn.dataset.lang);
             };
             btn.addEventListener('pointerup', switchLangHandler);
-
         });
 
         speakButton.addEventListener('click', () => {
