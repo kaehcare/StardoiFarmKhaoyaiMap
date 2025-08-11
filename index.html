@@ -747,6 +747,7 @@
             factTitle.textContent = translations.fun_fact_title[currentLang];
             factText.textContent = randomFact;
             factModal.style.display = 'flex';
+    document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'hidden');
         });
 
         function closeModal(modalElement) {
@@ -765,6 +766,7 @@
 
         // Close logic for fact modal
         factModal.querySelector('.close-button').addEventListener('click', () => closeModal(factModal));
+    document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'visible');
         window.addEventListener('click', (event) => {
             if (event.target === factModal) {
                 closeModal(factModal);
