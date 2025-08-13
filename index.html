@@ -117,21 +117,6 @@
             100% { transform: translate(-50%, -50%) scale(0.9); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
         }
         
-        
-        /* Android/Chrome friendly touch behaviors */
-        .poi {
-            touch-action: manipulation; /* prefer quick tap handling */
-            -webkit-tap-highlight-color: transparent; /* remove default tap highlight */
-            z-index: 9999; /* ensure POIs are on top of the image */
-        }
-        #map-image {
-            -webkit-user-drag: none;
-            user-drag: none;
-            -webkit-user-select: none;
-            user-select: none;
-            pointer-events: none; /* allow POIs to receive taps reliably on top of the image */
-        }
-
         /* POI Positions */
         #poi-tickets { top: 88%; left: 7%; }
         #poi-photos { top: 78%; left: 30%; }
@@ -153,7 +138,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 10000;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
@@ -661,7 +646,6 @@
 
         document.querySelectorAll('.poi').forEach(poi => {
             const openModal = (event) => {
-                event.preventDefault();
                 const poiId = poi.dataset.id;
                 const data = poiData[poiId];
 
@@ -691,19 +675,17 @@
                     }
                     
                     modal.style.display = 'flex';
-                    document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'hidden');
                 }
             };
-            poi.addEventListener('click', openModal);
+            poi.addEventListener('pointerup', openModal);
         });
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             const switchLangHandler = (event) => {
+                event.preventDefault();
                 switchLanguage(btn.dataset.lang);
             };
-            btn.addEventListener('click', switchLangHandler);
-            // accessibility with keyboard
-            btn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchLangHandler(e); } });
+            btn.addEventListener('pointerup', switchLangHandler);
         });
 
         speakButton.addEventListener('click', () => {
@@ -746,13 +728,11 @@
             factTitle.textContent = translations.fun_fact_title[currentLang];
             factText.textContent = randomFact;
             factModal.style.display = 'flex';
-    document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'hidden');
         });
 
         function closeModal(modalElement) {
             speechSynthesis.cancel(); 
             modalElement.style.display = 'none';
-            document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'visible');
         }
 
         // Close logic for main modal
@@ -765,7 +745,6 @@
 
         // Close logic for fact modal
         factModal.querySelector('.close-button').addEventListener('click', () => closeModal(factModal));
-    document.querySelectorAll('.poi').forEach(p => p.style.visibility = 'visible');
         window.addEventListener('click', (event) => {
             if (event.target === factModal) {
                 closeModal(factModal);
